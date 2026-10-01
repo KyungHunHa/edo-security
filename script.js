@@ -750,11 +750,17 @@
    03 Ergebnis, footer wordmark + claim, legal line "edo security · Berlin" (legal form TBC), JSON-LD name/url,
    canonical + og:url https://www.edo-security.de/ (DENIC listed the domain as FREE on 2026-10-01 — register it),
    favicon "e". No other copy changed. Mobile fixes: footer claim wraps, chapter title 6vw below 768px.
-   Logo 2026-10-01 (Kyung: "go"): sign "Die Rückendeckung" (assets/brand) as inline SVG in header and footer —
-   16 px on the baseline next to the 22 px wordmark, gap 6 px, currentColor; favicon = pixel-snapped 32 px sign
-   (inline data URI) + edo-favicon.ico + apple-touch-icon; og:image/twitter:card + JSON-LD logo/image point to
-   assets/brand on the intended domain. Verified 375 (header 56 px, brand 22 px high, gap 6), 1024 (brand with
-   sub 42 px high, 32 px to the nav), 1440 (header mirror clear of brand and nav); footer wraps the claim.
+   Logo 2026-10-01, second decision the same day (Kyung: "Ich will die Alternative lieber nehmen"): the drawn
+   wordmark "edo" ("Drei Kreise, ein Stamm", assets/brand) replaces the sign + typed wordmark. Inline SVG
+   viewBox 0 -50 342 150 (bottom = baseline → align-items: baseline), x-height 16 px = 24 × 54.72 px (first cut
+   20 px, reduced the same day — Kyung: "edo wirkt sehr dominant"); descriptor "SECURITY" as text in Plex Mono
+   500 / 12 px / 0.16 em, one step above the 11 px nav labels, one module (16 px) away. Header svg aria-hidden (the
+   link is labelled), footer svg role="img" aria-label="edo". Favicon = monogram "e" 32 px (inline data URI)
+   + edo-favicon.ico (16/32/48) + apple-touch-icon; OG image rebuilt with the new lockup; JSON-LD paths unchanged.
+   Assets v=13. Verified at 16 px: 375 (header 56 px, brand 144 × 26 px, no horizontal scroll), 1024 (brand with
+   sub 360 × 45 px, 32 px to the nav), 1440 (brand ends 443 px, header mirror 487–812 px, nav from 856 px);
+   console empty.
+   The sign "Die Rückendeckung" stays in git history (commit 1d3e4cc), not used in parallel.
 
    Pin bug 2026-09-17/18 (reported by Kyung: after scrolling past the stage and back, the film sat 1–2
    viewports too low with black above it). Root cause: CSS `html { scroll-behavior: smooth }`.

@@ -275,24 +275,26 @@ html.js .hero__line-inner { transform: translateY(110%); }
   gap: 4px var(--s-2);
   white-space: nowrap;
 }
-/* The sign "Die Rückendeckung" (assets/brand): height 0.72 em of the wordmark, sits on the baseline,
-   gap 4k ≈ 0.26 em — 16 px next to the 22 px wordmark. currentColor → paper on ink / ink on paper. */
+/* Wordmark "edo" (assets/brand, "Drei Kreise, ein Stamm"): drawn, not typed. Master x-height 100 u, ascender 150 u,
+   width 342 u; viewBox bottom = baseline, so align-items: baseline sets the circles on the text baseline.
+   x-height 16 px → 24 × 54.72 px (Kyung 2026-10-01: 20 px read as dominant; 16 px puts the descriptor one step
+   above the 11 px nav labels). The descriptor "SECURITY" follows the primary lockup: Plex Mono caps, cap height ≈ half the
+   x-height (12 px ≈ 8.4 px caps), one module (16 px = the flex gap) away. currentColor → paper on ink / ink on paper. */
 .brand__logo {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 54.72px;
+  height: 24px;
   fill: currentColor;
-  margin-right: -10px;          /* 16px flex gap − 6px wanted gap */
   flex: none;
 }
 .brand__mark {
-  font-weight: 400;              /* wordmark "edo security": lowercase, "edo" bold — the one element that is not an uppercase label */
-  font-size: 22px;
-  letter-spacing: 0;
-  text-transform: none;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   line-height: 1;
 }
-.brand__mark strong { font-weight: 700; }
 .brand__sub {
   font-family: var(--font-mono);
   font-size: 10px;
