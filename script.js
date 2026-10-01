@@ -46,7 +46,7 @@
    * TODO before launch: set to a Formspree URL ('https://formspree.io/f/<FORM_ID>') or an own endpoint
    * that accepts multipart/form-data POST and answers 2xx.
    */
-  const FORM_ENDPOINT = '';
+  const FORM_ENDPOINT = '';                       // repo/preview: stub. The release build sets 'contact.php' (server/contact.php).
 
   const HERO_PIN_DISTANCE = '+=300%';                            // pin duration ≈ 300 vh: one viewport of scroll per chapter
   const CHAPTER_FADE = 0.14;                                     // share of a chapter's scroll used for the crossfade at each boundary
@@ -602,6 +602,7 @@
     ].filter((f) => f.input);
 
     const BASE_DESCRIBEDBY = 'form-note';
+    if (form.elements.t) form.elements.t.value = String(Date.now());   // fill-time check in contact.php (bots submit at once)
 
     const setError = (input, message) => {
       const field = input.closest('.field');
@@ -776,6 +777,18 @@
    without a .stage so landing pages log no GSAP target warnings. Home links to it (services section + footer);
    robots.txt + sitemap.xml at the root (deploy/ carries Disallow + noindex). Verified 1024 (2×3 criteria grid,
    46/46 reveals, console empty), 375 (single column, no horizontal scroll).
+   Review 2026-10-01 (5 lenses × adversarial verify, 30 findings, 24 confirmed, all applied, v=16): two legal
+   corrections (Bewacherregister: exists since 2019, Destatis is the register authority — not "since 2019";
+   retention = three years after the end of the year the contract ended, § 21 Abs. 4 BewachV), unsourced clause
+   "Auftraggeber nicht" removed, "keine hoheitlichen Befugnisse" replaced by the § 17 Abs. 1 BewachV wording,
+   § 28 WaffG also covers objects; duplicates between Einordnung/FAQ/Zielgruppen removed, Begleitschutz bridged
+   to Sicherheitsbegleitung, meta description 151 chars, Service.availableChannel instead of availableLanguage,
+   H1 mobile size, poster path; CSS: the .lp-row classes, .lp-stand and .lp-hero__lead dropped in favour of .audience__item--wide,
+   .footnote and .section__intro. Refuted (kept): "Stand: Oktober 2026", criterion 01 next to the facts bar.
+   Hosting 2026-10-01 (v=17, Kyung: all-inkl Privat, domain there): mailer server/contact.php (mail() to RECIPIENT,
+   stores nothing, honeypot "website" + fill-time "t" + per-IP-hash rate limit, header-injection safe, same-origin
+   check); form carries the two extra fields (.field--hp off-screen, aria-hidden, tabindex -1). FORM_ENDPOINT stays
+   '' in the repo; release.py writes 'contact.php' into release/script.js. Stub behaviour in previews unchanged.
 
    Pin bug 2026-09-17/18 (reported by Kyung: after scrolling past the stage and back, the film sat 1–2
    viewports too low with black above it). Root cause: CSS `html { scroll-behavior: smooth }`.

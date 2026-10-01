@@ -33,7 +33,7 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/ibm-plex-mono-400-latin.woff2">
 
   <!-- ?v=N on the site's own CSS/JS: bump together with every change so browsers never pair a fresh page with a cached stylesheet. -->
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
   <!-- Poster frame first: same URL (incl. ?v=) as script.js HF01_FRAME_PATH(1), so the scrub reuses the cache entry. -->
   <link rel="preload" as="image" href="assets/hf01/frame_0001.webp?v=3" fetchpriority="high">
 
@@ -85,7 +85,7 @@
   <!-- GSAP core + ScrollTrigger (cdnjs, pinned) and the site script — all deferred, executed in order. -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="script.js?v=16"></script>
+  <script defer src="script.js?v=17"></script>
 </head>
 
 <body>
@@ -500,6 +500,13 @@
             <textarea id="f-message" name="message" rows="4"></textarea>
           </div>
           <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg. Hilfreich für das Erstgespräch: Leistungsbedarf, Zeitraum, Ort und Ansprechpartner.</p>
+          <!-- Spam defence without third parties (server/contact.php): honeypot "website" must stay empty (off-screen,
+               not focusable, hidden from assistive tech), "t" = page-load timestamp written by script.js. -->
+          <div class="field field--hp" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" name="t" value="">
           <div class="contact-form__actions">
             <button class="btn btn--primary" type="submit">Erstgespräch anfragen</button>
           </div>

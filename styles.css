@@ -1219,6 +1219,7 @@ html.js .timeline__progress { transform: scaleX(0); }
 .faq__q { font-weight: 500; font-size: 1.25rem; line-height: 1.3; }
 .faq__a { color: var(--muted); max-width: 60ch; }
 .founder__body .footnote { margin-top: 0; }   /* "Stand: …" under the quote; the grid gap is enough */
+.field--hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }   /* honeypot, see contact.php */
 .section__link { margin-top: var(--s-5); }
 .section__link a { color: var(--paper); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--faint); }
 .section__link a:hover, .section__link a:focus-visible { text-decoration-color: var(--paper); }

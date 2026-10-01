@@ -24,7 +24,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/space-grotesk-variable-latin.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../assets/fonts/ibm-plex-mono-400-latin.woff2">
-  <link rel="stylesheet" href="../styles.css?v=16">
+  <link rel="stylesheet" href="../styles.css?v=17">
   <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.gsap){document.documentElement.classList.remove('js');}},2500);</script>
   <!-- Service + Person. No FAQPage schema on purpose (SEO/GEO plan, section 6): the questions are visible text. -->
   <script type="application/ld+json">
@@ -54,7 +54,7 @@
   </script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="../script.js?v=16"></script>
+  <script defer src="../script.js?v=17"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
@@ -364,6 +364,13 @@
             <textarea id="f-message" name="message" rows="4"></textarea>
           </div>
           <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg. Hilfreich für das Erstgespräch: Leistungsbedarf, Zeitraum, Ort und Ansprechpartner.</p>
+          <!-- Spam defence without third parties (server/contact.php): honeypot "website" must stay empty (off-screen,
+               not focusable, hidden from assistive tech), "t" = page-load timestamp written by script.js. -->
+          <div class="field field--hp" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" name="t" value="">
           <div class="contact-form__actions">
             <button class="btn btn--primary" type="submit">Erstgespräch anfragen</button>
           </div>
