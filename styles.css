@@ -1,0 +1,1165 @@
+/* ==========================================================================
+   edo security — styles.css
+   Design direction: "Monochrome Präzision"
+   - No accent colour. Hierarchy = size, weight, spacing, grey value.
+   - border-radius 0, no box-shadow, no decorative gradients.
+   - Structure through 1px lines (--line): section dividers, column dividers, grid cells.
+   Contents
+     1. Tokens
+     2. Base & typography
+     3. Utilities (a11y, placeholders, reveal states, buttons)
+     4. Header & navigation
+     5. Hero (split + scroll-scrub panel)
+     6. Sections: concept, services, audience, founder, process, facts, contact
+     7. Footer
+     8. Responsive (≤1023 overlay menu + tablet, ≤767 stack)
+     9. Reduced motion
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  --ink:    #0A0A0B;   /* base surface */
+  --ink-2:  #0F0F12;   /* hover / secondary surfaces */
+  --panel:  #1A1A1E;   /* media / placeholder surfaces */
+  --paper:  #F2F2F0;   /* primary text */
+  --muted:  #A6A6AA;   /* secondary text (≥ 14px only) */
+  --dim:    #8B8E94;   /* dimmed headline lines, labels */
+  --faint:  #3A3A3F;   /* large numerals, inactive elements */
+  --line:   #26262A;   /* every grid line and border */
+
+  --font-sans: "Space Grotesk", system-ui, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  /* 8px spacing scale */
+  --s-1: 8px;  --s-2: 16px; --s-3: 24px; --s-4: 32px; --s-5: 40px;
+  --s-6: 48px; --s-8: 64px; --s-10: 80px; --s-12: 96px;
+
+  --header-h: 64px;
+  --pad-x: 48px;                                   /* horizontal section inset */
+  --section-y: clamp(96px, 7.5vw, 120px);          /* vertical section padding, desktop 96–120 (mobile: 72) */
+
+  --dur-fast: 150ms;                               /* hard hover inversion */
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1); /* ≈ GSAP power2.out */
+
+  /* Placeholder hatch: fine 135° lines on --panel */
+  --hatch: repeating-linear-gradient(135deg, rgba(242, 242, 240, 0.045) 0 1px, transparent 1px 16px);
+
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   2. Base & typography
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  /* No CSS scroll-behavior: smooth — ScrollTrigger.refresh() jumps to 0 to measure pins and Chrome would
+     animate that jump, leaving the stage's pin start at -scrollY. In-page anchors scroll smoothly via JS. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1, h2, h3, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; color: inherit; margin: 0; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+
+/* Anchor targets clear the fixed header */
+section[id] { scroll-margin-top: var(--header-h); }
+
+:focus-visible {
+  outline: 1px solid var(--paper);
+  outline-offset: 2px;
+}
+main:focus { outline: none; } /* programmatic skip-link target, not interactive */
+
+/* Mono meta line: eyebrows, labels, chips, nav */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.section__title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  max-width: 22ch;
+}
+
+.section__intro {
+  font-size: clamp(1.25rem, 1.7vw, 1.625rem);
+  line-height: 1.3;
+  font-weight: 500;
+  max-width: 40ch;
+  margin-top: var(--s-2);
+}
+
+/* --------------------------------------------------------------------------
+   3. Utilities
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--pad-x);
+  top: -100px;
+  z-index: 200;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.skip-link:focus { top: 8px; }
+
+/* Higgsfield placeholders: --panel + hatch + mono label in a 1px frame.
+   Swap-in: uncomment the <img>/<video class="hf-media"> inside — the label hides itself. */
+.hf-placeholder {
+  position: relative;
+  background-color: var(--panel);
+  background-image: var(--hatch);
+  overflow: hidden;
+}
+
+.hf-placeholder__label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: calc(100% - 32px);   /* wraps inside narrow placeholders instead of clipping */
+  padding: 8px 16px;
+  border: 1px solid var(--faint);  /* dev-only frame on --panel; --line would be invisible there, --faint is the brief's own secondary border token */
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--dim);
+  pointer-events: none;
+  z-index: 1;
+}
+.hf01-readout { color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* Pre-provisioned media rule for the swap-in (cover-crop, no layout change) */
+.hf-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hf-placeholder:has(.hf-media) .hf-placeholder__label,
+.hf-placeholder.has-media .hf-placeholder__label { display: none; }
+
+/* Reveal utility: CSS holds the pre-state while JS is active; GSAP animates to the final state.
+   (Without JS — or if GSAP fails — the `js` class is absent/removed and content is simply visible.) */
+html.js .reveal,
+html.js .hero-intro {
+  opacity: 0;
+  transform: translateY(16px);
+}
+html.js .hero__line-inner { transform: translateY(110%); }
+
+/* Buttons: square, mono label, hard inversion on hover */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) linear,
+              color var(--dur-fast) linear,
+              border-color var(--dur-fast) linear;
+}
+.btn--primary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+.btn--primary:hover { background: var(--ink); color: var(--paper); }
+.btn--ghost {
+  background: transparent;
+  color: var(--paper);
+  border-color: var(--faint);
+}
+.btn--ghost:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.btn--sm { min-height: 40px; padding: 0 var(--s-2); }
+.btn:disabled { cursor: default; opacity: 0.5; }
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   4. Header & navigation
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  background: var(--ink);
+  border-bottom: 1px solid var(--line);
+  z-index: 100;
+}
+
+.site-header__inner {
+  height: 100%;
+  padding-inline: var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.brand {
+  display: flex;
+  flex-wrap: wrap;            /* footer brand wraps its sublabel on narrow screens */
+  align-items: baseline;
+  gap: 4px var(--s-2);
+  white-space: nowrap;
+}
+/* The sign "Die Rückendeckung" (assets/brand): height 0.72 em of the wordmark, sits on the baseline,
+   gap 4k ≈ 0.26 em — 16 px next to the 22 px wordmark. currentColor → paper on ink / ink on paper. */
+.brand__logo {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  margin-right: -10px;          /* 16px flex gap − 6px wanted gap */
+  flex: none;
+}
+.brand__mark {
+  font-weight: 400;              /* wordmark "edo security": lowercase, "edo" bold — the one element that is not an uppercase label */
+  font-size: 22px;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1;
+}
+.brand__mark strong { font-weight: 700; }
+.brand__sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.brand--footer .brand__sub { white-space: normal; line-height: 1.8; }   /* the claim wraps on phones instead of running off */
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+.site-nav__list {
+  display: flex;
+  gap: var(--s-3);
+}
+.site-nav__list a {
+  display: inline-block;
+  padding: 8px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  transition: color var(--dur-fast) linear;
+}
+.site-nav__list a:hover { color: var(--paper); }
+
+.site-nav__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.lang-switch__item.is-active { color: var(--paper); }
+.lang-switch a:hover { color: var(--paper); }
+
+.menu-toggle {
+  display: none;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+  transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
+}
+.menu-toggle:hover,
+.menu-toggle[aria-expanded="true"] { background: var(--paper); color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   5. Stage (Kapitel-Hero): one full-bleed film, three chapters of copy.
+      Default = static stack (mobile, reduced motion, no JS). The pinned, scroll-scrubbed
+      stage is layered on for ≥768px with motion allowed and JS present (see script.js).
+   -------------------------------------------------------------------------- */
+main { padding-top: var(--header-h); }
+
+.stage {
+  position: relative;
+  background: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+/* HF-01 surface: poster frame in the static stack, full-bleed film in stage mode */
+.stage__media {
+  position: relative;
+  width: 100%;                 /* definite inline size: otherwise max-height transfers through the ratio and the box shrinks (landscape phones, reduced motion, no JS) */
+  aspect-ratio: 4 / 5;
+  max-height: 80vh;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.hf01-canvas {
+  position: relative;          /* paints above the poster <img class="hf-media"> that sits underneath for no-JS / no-GSAP */
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.stage__scrim,
+.stage__nav,
+.header-chapters { display: none; }
+
+.stage__chapters {
+  display: grid;
+  gap: var(--s-8);
+  padding: var(--section-y) var(--pad-x);
+}
+.chapter {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+  max-width: 68ch;
+}
+
+.hero__title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  /* Longest line "Ihre Handlungsfreiheit." ≈ 12.65em incl. tracking: 5.4vw keeps it on one line
+     from 768px up (768 − 2·48 = 672px available, 41.5px × 12.65 ≈ 525px); &shy; is the safety net. */
+  font-size: clamp(2.625rem, 5.4vw, 5.5rem);
+  hyphens: manual;
+}
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding: 0.1em 0;    /* clip box slightly larger than the line box so diacritics (Ä) never get shaved */
+  margin: -0.1em 0;
+}
+.hero__line--dim { color: var(--dim); }
+.hero__line-inner { display: block; }
+
+.hero__bottom {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 60ch;
+}
+.hero__sub {
+  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 44ch;
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.chapter__title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+}
+.chapter__text {
+  font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 44ch;
+}
+.chapter__statement {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  font-size: clamp(1.25rem, 2.4vw, 2.25rem);
+  max-width: 30ch;
+}
+
+/* Stage mode: pinned viewport, copy centred over the film, chapter index at the bottom */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  html.js .stage {
+    height: calc(100vh - var(--header-h));
+    height: calc(100svh - var(--header-h));
+    overflow: hidden;
+  }
+  html.js .stage__media {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    max-height: none;
+    border-bottom: 0;
+  }
+  html.js .stage__scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* --ink with alpha (no shadow, no new colour): keeps the copy legible over the bright glass field */
+    background:
+      radial-gradient(ellipse 62% 58% at 50% 52%, rgba(10, 10, 11, 0.78) 0%, rgba(10, 10, 11, 0.35) 55%, rgba(10, 10, 11, 0) 100%),
+      linear-gradient(to top, rgba(10, 10, 11, 0.9) 0%, rgba(10, 10, 11, 0) 38%);
+  }
+  html.js .stage__chapters {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: var(--s-6) var(--pad-x) calc(var(--s-5) + 64px);   /* room for the chapter index */
+  }
+  html.js .chapter {
+    grid-area: 1 / 1;
+    justify-items: center;
+    text-align: center;
+    max-width: 72rem;        /* wide enough for "Ihre Handlungsfreiheit." on one line at 5.5rem; paragraphs keep their own ch limits */
+    will-change: opacity, transform;
+  }
+  html.js .chapter:not(.is-active) { opacity: 0; pointer-events: none; }   /* pre-scrub state; JS crossfades opacity and hides fully faded chapters */
+  html.js .hero__bottom { justify-items: center; }
+  html.js .hero__sub { margin-inline: auto; }
+  html.js .hero__actions { justify-content: center; }
+
+  html.js .stage__nav {
+    display: block;
+    position: absolute;
+    left: var(--pad-x);
+    right: var(--pad-x);
+    bottom: var(--s-5);
+    border-top: 1px solid var(--line);
+    padding-top: var(--s-2);
+  }
+  /* Header mirror: a flex item between brand and nav (never overlaps them), shown while the stage is pinned
+     (JS toggles .is-visible). Needs ≈330px of free header width → enabled from 1440px, see below. */
+  html.js .header-chapters {
+    display: none;
+    flex: 0 1 auto;
+    justify-content: center;
+    gap: var(--s-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms var(--ease-out);
+  }
+  html.js .header-chapters.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .stage__nav-list {
+    display: flex;
+    gap: var(--s-6);
+  }
+  .stage__nav-item {
+    display: inline-flex;
+    gap: var(--s-1);
+    align-items: baseline;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    transition: color var(--dur-fast);
+  }
+  .stage__nav-item:hover,
+  .stage__nav-item.is-active { color: var(--paper); }
+  .stage__nav-item:focus-visible { outline: 1px solid var(--paper); outline-offset: 4px; }
+  .stage__nav-num { color: var(--faint); font-variant-numeric: tabular-nums; }
+  .stage__nav-item.is-active .stage__nav-num { color: var(--dim); }
+}
+@media (min-width: 1440px) and (prefers-reduced-motion: no-preference) {
+  html.js .header-chapters { display: flex; }   /* brand ≈390px + nav ≈580px leave room for the mirror only from 1440px */
+}
+
+/* Short desktop viewports (laptops with the browser UI, split screens): tighter copy so chapter 1
+   never runs into the chapter index. */
+@media (min-width: 768px) and (max-height: 720px) and (prefers-reduced-motion: no-preference) {
+  html.js .hero__title { font-size: clamp(2rem, 4.2vw, 3.25rem); }
+  html.js .chapter { gap: var(--s-3); }
+  html.js .hero__bottom { gap: var(--s-3); }
+  html.js .hero__sub { font-size: 1rem; }
+  html.js .chapter__title { font-size: clamp(2rem, 3.8vw, 3.25rem); }
+  html.js .stage__chapters { padding-top: var(--s-4); }
+}
+
+/* --------------------------------------------------------------------------
+   6. Sections
+   -------------------------------------------------------------------------- */
+.section {
+  position: relative;
+  padding: var(--section-y) var(--pad-x);
+  border-bottom: 1px solid var(--line);
+}
+.section__head {
+  display: grid;
+  gap: var(--s-2);
+  margin-bottom: var(--s-8);
+  justify-items: start;
+}
+
+/* 6.1 Concept ------------------------------------------------------------ */
+.concept__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.concept__col {
+  padding: var(--s-2) var(--s-6) var(--s-2) 0;
+}
+.concept__col + .concept__col {
+  border-left: 1px solid var(--line);
+  padding-left: var(--s-6);
+  padding-right: 0;
+}
+.concept__title {
+  font-weight: 500;
+  font-size: clamp(1.375rem, 1.9vw, 1.75rem);
+  line-height: 1.2;
+  margin-bottom: var(--s-3);
+}
+.concept__col p {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 52ch;
+}
+
+/* 6.2 Services ----------------------------------------------------------- */
+.services__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.service {
+  position: relative;
+  background: var(--ink);
+  min-height: 280px;
+  padding: var(--s-4);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 34%);
+  grid-template-rows: auto 1fr;
+  gap: var(--s-4);
+  transition: background-color var(--dur-fast) linear;
+}
+.service:hover { background: var(--ink-2); }
+
+.service__head {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.service__num {
+  font-family: var(--font-mono);
+  font-size: clamp(44px, 3.5vw, 56px);
+  line-height: 1;
+  color: var(--faint);
+  transition: color var(--dur-fast) linear;
+}
+.service:hover .service__num { color: var(--paper); }
+
+.service__body {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+  max-width: 34ch;
+  min-width: 0;
+}
+.service__media {
+  grid-column: 2;
+  grid-row: 2;
+  aspect-ratio: 1 / 1;
+  align-self: end;
+}
+.service__title {
+  font-weight: 500;
+  font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+  line-height: 1.2;
+  margin-bottom: var(--s-2);
+  hyphens: manual;           /* long compounds carry &shy; in the markup */
+}
+.service__text { color: var(--muted); }
+
+/* 6.3 Audience ----------------------------------------------------------- */
+.audience__grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: var(--s-8);
+  align-items: start;
+}
+.audience__head {
+  margin-bottom: 0;
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-4));
+}
+.audience__list { border-top: 1px solid var(--line); }
+.audience__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--s-4);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.audience__title {
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  hyphens: manual;           /* long compounds carry &shy; in the markup */
+}
+.audience__text { color: var(--muted); }
+
+/* 6.4 Founder ------------------------------------------------------------ */
+.founder__grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+.founder__media-col {
+  padding-right: var(--s-6);
+  border-right: 1px solid var(--line);
+}
+.founder__media {
+  aspect-ratio: 4 / 5;
+  position: sticky;
+  top: calc(var(--header-h) + var(--s-4));
+}
+.founder__body {
+  padding-left: var(--s-6);
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  justify-items: start;
+}
+.founder__name {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  font-size: clamp(2.25rem, 4.5vw, 4rem);
+}
+.founder__intro {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 56ch;
+}
+.credentials {
+  width: 100%;
+  border-top: 1px solid var(--line);
+}
+.credentials__item {
+  display: grid;
+  grid-template-columns: 4ch 1fr;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+.credentials__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--dim);
+}
+.quote {
+  border-left: 2px solid var(--paper);
+  padding-left: var(--s-3);
+  margin-top: var(--s-2);
+}
+.quote p {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 400;
+  max-width: 40ch;
+}
+.quote__by {
+  margin-top: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* 6.5 Process ------------------------------------------------------------ */
+.process { overflow: hidden; }
+.process > * { position: relative; z-index: 1; }
+
+/* HF-04: decorative texture behind the content — hatch only (on ::before, so the dev label keeps full contrast) */
+.process__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.process__bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--hatch);
+  opacity: 0.6;
+}
+.process__bg .hf-placeholder__label {
+  left: auto;
+  top: auto;
+  right: var(--pad-x);
+  bottom: var(--s-2);
+  transform: none;
+  background: var(--ink);
+  border-color: var(--line);
+  color: var(--dim);
+}
+
+.timeline { position: relative; }
+.timeline__track {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--line);
+}
+.timeline__progress {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--paper);
+  transform-origin: left center;
+}
+html.js .timeline__progress { transform: scaleX(0); }
+
+.timeline__steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.step {
+  padding: var(--s-5) var(--s-4) 0 0;
+  min-width: 0;
+}
+.step + .step {
+  border-left: 1px solid var(--line);
+  padding-left: var(--s-4);
+}
+.step__num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(40px, 3.5vw, 56px);
+  line-height: 1;
+  color: var(--faint);
+  margin-bottom: var(--s-4);
+}
+.step__title {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  margin-bottom: var(--s-1);
+}
+.step__text {
+  color: var(--muted);
+  max-width: 30ch;
+}
+.footnote {
+  margin-top: var(--s-8);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* 6.6 Facts bar ---------------------------------------------------------- */
+.facts {
+  padding: 0 var(--pad-x);
+  border-bottom: 1px solid var(--line);
+}
+.facts__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+.facts__item {
+  padding: var(--s-3) var(--s-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.6;
+  color: var(--dim);
+  border-left: 1px solid var(--line);
+}
+.facts__item:first-child { border-left: 0; }
+.facts__note {
+  padding: var(--s-1) 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* 6.7 Contact ------------------------------------------------------------ */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: var(--s-8);
+  align-items: start;
+}
+.contact__text {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 46ch;
+}
+.contact__direct {
+  margin-top: var(--s-6);
+  border-top: 1px solid var(--line);
+}
+.contact__direct-row {
+  display: grid;
+  grid-template-columns: 10ch 1fr;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact__direct dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.contact__direct dd {
+  font-size: 1rem;
+  color: var(--paper);
+}
+
+.contact-form {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+.field { display: grid; gap: var(--s-1); }
+.field label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.field__optional { color: var(--dim); margin-left: var(--s-1); }
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--s-2);
+  background: var(--ink);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  transition: border-color var(--dur-fast) linear;
+}
+.field textarea { min-height: 128px; padding: var(--s-2); resize: vertical; }
+.field input:focus,
+.field textarea:focus {
+  outline: none;                 /* replaced by the --paper border below */
+  border-color: var(--paper);
+}
+.field.is-invalid input { border-color: var(--paper); }   /* error state stays on-system; the message carries the signal */
+.field__error {
+  font-size: 14px;
+  color: var(--paper);
+}
+.form-note {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 60ch;
+}
+.form-status {
+  min-height: 1.5em;
+  color: var(--paper);
+}
+.form-status:focus-visible { outline: none; }   /* focused programmatically after submit; role="status" announces it, no ring on a paragraph */
+
+/* --------------------------------------------------------------------------
+   7. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  padding: var(--s-6) var(--pad-x);
+}
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--s-2) var(--s-6);
+  align-items: center;
+}
+.site-footer__links {
+  display: flex;
+  gap: var(--s-3);
+  justify-content: flex-end;
+}
+.site-footer__links a {
+  display: inline-block;
+  padding: 8px 0;                /* ≥ 24px target height */
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  transition: color var(--dur-fast) linear;
+}
+.site-footer__links a:hover { color: var(--paper); }
+.site-footer__legal {
+  color: var(--muted);
+  font-size: 14px;
+}
+.site-footer__copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive
+   -------------------------------------------------------------------------- */
+/* Tablet & small screens: overlay menu, and the wide horizontal layouts turn vertical */
+@media (max-width: 1023.98px) {
+  .site-header .brand__sub { display: none; }
+  .menu-toggle { display: inline-flex; }
+
+  /* Four equal cells need width for the inner text|media split → single column below 1024px */
+  .services__grid { grid-template-columns: 1fr; }
+
+  /* Process: vertical list, line on the left, progress fills top→bottom */
+  .timeline__track {
+    top: 0; bottom: 0; left: 0; right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .timeline__progress { transform-origin: center top; }
+  html.js .timeline__progress { transform: scaleY(0); }
+  .timeline__steps { grid-template-columns: 1fr; }
+  .step {
+    padding: var(--s-4) 0 var(--s-4) var(--s-4);
+  }
+  .step + .step {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .step__text { max-width: none; }
+
+  /* Facts: 2 columns, the fifth entry spans both */
+  .facts__list { grid-template-columns: 1fr 1fr; }
+  .facts__item {
+    padding: var(--s-2) var(--s-1);
+    border-left: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .facts__item:nth-child(even) { border-left: 1px solid var(--line); }
+  .facts__item:last-child { grid-column: 1 / -1; border-bottom: 0; }
+
+  .site-nav {
+    position: fixed;
+    top: var(--header-h);
+    left: 0; right: 0; bottom: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--s-6);
+    padding: var(--s-6) var(--pad-x);
+    background: var(--ink);
+    overflow-y: auto;
+    z-index: 99;
+  }
+  .site-nav.is-open { display: flex; }
+
+  .site-nav__list {
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .site-nav__list li { border-bottom: 1px solid var(--line); }
+  .site-nav__list a {
+    display: block;
+    padding: var(--s-3) 0;
+    font-family: var(--font-sans);
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+  }
+  .site-nav__meta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s-3);
+  }
+  .site-nav__meta .btn { min-height: 56px; }
+
+  body.menu-open { overflow: hidden; }
+}
+
+/* Layout stacks below 768px (hero pin is disabled here — see script.js) */
+@media (max-width: 767.98px) {
+  :root {
+    --header-h: 56px;
+    --pad-x: 24px;
+    --section-y: 72px;
+  }
+
+  .site-header__inner { gap: var(--s-2); }
+
+  .hero__title { font-size: clamp(1.75rem, 8.2vw, 2.625rem); }   /* meets the desktop floor at 768px */
+  .chapter__title { font-size: clamp(1.25rem, 6vw, 2.25rem); }   /* each claim sentence stays on one line from 360px (measured: 305px of 333px at 375px) */
+  .chapter__statement { font-size: 1.125rem; }
+  .stage__chapters { gap: var(--s-6); }
+
+  .section__head { margin-bottom: var(--s-6); }
+
+  .concept__columns { grid-template-columns: 1fr; }
+  .concept__col { padding: 0 0 var(--s-4); }
+  .concept__col + .concept__col {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: var(--s-4) 0 0;
+  }
+
+  .service {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    padding: var(--s-3);
+  }
+  .service__body { grid-column: 1; grid-row: 3; max-width: none; }
+  .service__media { grid-column: 1; grid-row: 2; }
+  .service__title { font-size: 1.25rem; }
+
+  .audience__grid { grid-template-columns: 1fr; gap: var(--s-5); }
+  .audience__head { position: static; }
+  .audience__item { grid-template-columns: 1fr; gap: var(--s-1); }
+
+  .founder__grid { grid-template-columns: 1fr; }
+  .founder__media-col {
+    padding-right: 0;
+    border-right: 0;
+    padding-bottom: var(--s-6);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-6);
+  }
+  .founder__media { position: static; }
+  .founder__body { padding-left: 0; }
+
+  .contact__grid { grid-template-columns: 1fr; gap: var(--s-6); }
+  .contact__direct { margin-top: var(--s-4); }
+
+  .site-footer__grid { grid-template-columns: 1fr; }
+  .site-footer__links { justify-content: flex-start; }
+  .site-footer__copy { text-align: left; }
+}
+
+/* --------------------------------------------------------------------------
+   9. Reduced motion: no animation, everything visible immediately
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+  html.js .reveal,
+  html.js .hero-intro,
+  html.js .hero__line-inner,
+  html.js .timeline__progress {
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}

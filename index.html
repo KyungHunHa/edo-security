@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">   <!-- preview build: keep out of search engines -->
+  <title>edo security — Personenschutz &amp; Begleitservice Berlin</title>
+  <meta name="description" content="Personenschutz und Begleitservice in Berlin. Wir schützen, was Ihnen wichtig ist — diskret, präzise und in Ihre Abläufe integriert. Vertrauliches Erstgespräch.">
+  <meta name="theme-color" content="#0A0A0B">
+  <meta name="color-scheme" content="dark">
+  <!-- Favicon: the edo sign, pixel-snapped 32 px version inline (no request); ICO + touch icon from assets/brand. -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='geometricPrecision'%3E%3Crect width='32' height='32' fill='%230A0A0B'/%3E%3Ccircle cx='12' cy='12' r='10' fill='%23F2F2F0'/%3E%3Cpath d='M22.24 4H30V30H4V22.24A13 13 0 0 0 22.24 4Z' fill='%23F2F2F0'/%3E%3C/svg%3E">
+  <link rel="alternate icon" href="assets/brand/edo-favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="apple-touch-icon" href="assets/brand/edo-apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="edo security">
+  <meta property="og:title" content="edo security — Personenschutz &amp; Begleitservice Berlin">
+  <meta property="og:url" content="https://www.edo-security.de/">
+  <meta property="og:image" content="https://www.edo-security.de/assets/brand/edo-og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.edo-security.de/">
+  <meta property="og:description" content="Personenschutz und Begleitservice in Berlin. Wir schützen, was Ihnen wichtig ist — diskret, präzise und in Ihre Abläufe integriert.">
+  <!-- Domain since 2026-10-01: www.edo-security.de (canonical, og:url, og:image above) — DENIC listed it as FREE on 2026-10-01: register it. -->
+
+  <!-- Fonts: Google Fonts with display=swap (no FOIT). Fallbacks are defined in styles.css. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+
+  <!-- ?v=N on the site's own CSS/JS: bump together with every change so browsers never pair a fresh page with a cached stylesheet. -->
+  <link rel="stylesheet" href="styles.css?v=11">
+  <!-- Poster frame first: same URL (incl. ?v=) as script.js HF01_FRAME_PATH(1), so the scrub reuses the cache entry. -->
+  <link rel="preload" as="image" href="assets/hf01/frame_0001.webp?v=3" fetchpriority="high">
+
+  <!-- Flags the document as JS-capable so CSS can hold reveal elements in their pre-animation state
+       until GSAP takes over. Safety net: if GSAP has not arrived after 2.5 s (slow/blocked CDN) the flag
+       is dropped and the content is shown statically; script.js then skips the entrance animations. -->
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.gsap){document.documentElement.classList.remove('js');}},2500);</script>
+
+  <!-- Structured data. TODO before launch: add "@id" (final URL + "#business"), "telephone", "email" and the legal form
+       once confirmed (name currently the brand "edo security"). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "edo security",
+    "url": "https://www.edo-security.de/",
+    "logo": "https://www.edo-security.de/assets/brand/edo-apple-touch-icon.png",
+    "image": "https://www.edo-security.de/assets/brand/edo-og-image.png",
+    "slogan": "Ihre Sicherheit. Ihre Abläufe. Ihre Handlungsfreiheit.",
+    "description": "Personenschutz und Begleitservice in Berlin: diskrete Sicherheitsbegleitung, Contractor-Dienste und Teamverstärkung, Koordination und Vermittlung, Objektschutz.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Berlin",
+      "addressCountry": "DE"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Berlin" },
+      { "@type": "Country", "name": "Deutschland" }
+    ],
+    "knowsLanguage": ["de", "en"],
+    "founder": {
+      "@type": "Person",
+      "name": "Edwin Ofori Attah",
+      "jobTitle": "Gründer & Geschäftsführer"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Leistungen",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Personenschutz & diskrete Sicherheitsbegleitung", "serviceType": "Personenschutz", "areaServed": "Berlin" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Contractor-Dienste & Teamverstärkung", "serviceType": "Personenschutz", "areaServed": "Deutschland" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Koordination & Vermittlung", "serviceType": "Personenschutz", "areaServed": "Berlin" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Objektschutz", "serviceType": "Objektschutz", "areaServed": "Berlin" } }
+      ]
+    }
+  }
+  </script>
+
+  <!-- GSAP core + ScrollTrigger (cdnjs, pinned) and the site script — all deferred, executed in order. -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="script.js?v=11"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+  <!-- ======================================================================
+       0. HEADER — fixed, typographic wordmark, nav, CTA, mobile overlay menu
+       ====================================================================== -->
+  <!-- No id="top" on the fixed header: the bare #top fragment scrolls to the document top per spec. -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="#top" aria-label="edo security — zum Seitenanfang">
+        <svg class="brand__logo" viewBox="6 6 88 88" aria-hidden="true" focusable="false"><path d="M6 38a32 32 0 1 0 64 0a32 32 0 1 0 -64 0Z"/><path d="M70 14H94V94H14V70A40 40 0 0 0 70 14Z"/></svg>
+        <span class="brand__mark"><strong>edo</strong> security</span>
+        <span class="brand__sub">Personenschutz &amp; Begleitservice</span>
+      </a>
+
+      <!-- Chapter index mirrored into the header while the stage is pinned (≥1440px). Visual twin of the
+           stage's own index: aria-hidden + tabindex -1, so keyboard and screen-reader users meet it once. -->
+      <ol class="header-chapters" aria-hidden="true">
+        <li><button type="button" class="stage__nav-item is-active" data-chapter-target="0" tabindex="-1"><span class="stage__nav-num">01</span>Sicherheit</button></li>
+        <li><button type="button" class="stage__nav-item" data-chapter-target="1" tabindex="-1"><span class="stage__nav-num">02</span>Konzept</button></li>
+        <li><button type="button" class="stage__nav-item" data-chapter-target="2" tabindex="-1"><span class="stage__nav-num">03</span>Ergebnis</button></li>
+      </ol>
+
+      <!-- Toggle sits before the nav in DOM order so Tab moves from the button straight into the open overlay. -->
+      <button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Menü öffnen">
+        <span class="menu-toggle__label">Menü</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Hauptnavigation">
+        <ul class="site-nav__list" role="list">
+          <li><a href="#konzept">Konzept</a></li>
+          <li><a href="#leistungen">Leistungen</a></li>
+          <li><a href="#gruender">Gründer</a></li>
+          <li><a href="#prozess">Prozess</a></li>
+        </ul>
+
+        <div class="site-nav__meta">
+          <!-- Language switch slot (reserved, hidden until the English version exists).
+               TODO: remove `hidden` from the group and the EN link, point EN to /en/ once translated;
+               the switch adds ≈60px to the header — then hide .brand__sub below ~1100px instead of 1024px. -->
+          <div class="lang-switch" role="group" aria-label="Sprache" hidden>
+            <a class="lang-switch__item is-active" href="#" aria-current="page" lang="de">DE</a>
+            <span class="lang-switch__sep" aria-hidden="true" hidden>/</span>
+            <a class="lang-switch__item" href="#" lang="en" hreflang="en" hidden>EN</a>
+          </div>
+          <a class="btn btn--primary btn--sm" href="#kontakt">Erstgespräch</a>
+        </div>
+      </nav>
+
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ====================================================================
+         1. STAGE — Kapitel-Hero: one full-bleed film (HF-01), three chapters of copy
+            scrubbed by scroll (Slogan → Konzept → Leitsatz). Static stack below 768px,
+            with reduced motion or without JS.
+         ==================================================================== -->
+    <section class="stage" id="hero" aria-labelledby="hero-title">
+      <!-- HF-01: three chained 16:9 Kling clips (start-frame continuity), rendered as one
+           scroll-scrubbed WebP frame sequence on <canvas>. The canvas centre-crops (object-fit: cover). -->
+      <div class="stage__media hf-placeholder hero-intro"
+           data-hf-id="HF-01"
+           data-hf-type="video"
+           data-hf-ratio="16:9"
+           data-hf-note="Ein durchgehender Weg in drei aneinander anschließenden Clips: Rückenfigur im Betonsaal vor der Glaswand, die Kamera fährt heran, hebt sich, die Figur geht ins Licht. Als WebP-Frame-Sequenz (assets/hf01/frame_0001.webp ff.) eingebunden."
+           role="img"
+           aria-label="Ein Personenschützer in Rückenansicht in einer weiten Halle aus Beton und Glas; die Kamera nähert sich, dann geht er auf das Licht zu">
+        <!-- Poster for no-JS / blocked GSAP: sits under the canvas, which paints over it as soon as it draws. -->
+        <img class="hf-media" src="assets/hf01/frame_0001.webp?v=3" alt="" width="1600" height="900" decoding="async">
+        <canvas class="hf01-canvas" id="hf01-canvas" width="1600" height="900"></canvas>
+        <div class="hf-placeholder__label">
+          <span>Higgsfield Asset: HF-01</span>
+          <span class="hf01-readout" id="hf01-readout">Scrub 001 / 237</span>
+        </div>
+      </div>
+      <div class="stage__scrim" aria-hidden="true"></div>
+
+      <div class="stage__chapters">
+        <article class="chapter is-active" data-chapter="0">
+          <p class="eyebrow hero-intro hero__eyebrow">edo security / Berlin — Personenschutz &amp; Begleitservice</p>
+
+          <h1 class="hero__title" id="hero-title">
+            <span class="hero__line"><span class="hero__line-inner">Ihre Sicherheit.</span></span>
+            <span class="hero__line"><span class="hero__line-inner">Ihre Abläufe.</span></span>
+            <span class="hero__line hero__line--dim"><span class="hero__line-inner">Ihre Handlungs&shy;freiheit.</span></span>
+          </h1>
+
+          <div class="hero__bottom hero-intro">
+            <p class="hero__sub">Diskrete Schutz- und Begleitdienstleistungen, die sich in Ihre Abläufe einfügen — nicht umgekehrt.</p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#kontakt">Vertrauliches Erstgespräch</a>
+              <a class="btn btn--ghost" href="#leistungen">Leistungen</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="chapter" data-chapter="1">
+          <p class="eyebrow">Konzept</p>
+          <h2 class="chapter__title" id="konzept-title">Vertrauen als Grundlage.<br>Leistung als Anspruch.</h2>
+          <p class="chapter__text">Der Mensch, seine Sicherheit und seine Handlungsfreiheit stehen im Fokus unserer Arbeit.</p>
+        </article>
+
+        <article class="chapter" data-chapter="2">
+          <p class="chapter__statement">Sicherheit und Handlungsfreiheit als Ergebnis.</p>
+        </article>
+      </div>
+
+      <!-- Chapter index: mono hairline row; buttons scroll to the chapter's scrub position (see script.js) -->
+      <nav class="stage__nav" aria-label="Kapitel">
+        <ol class="stage__nav-list" role="list">
+          <li><button type="button" class="stage__nav-item is-active" data-chapter-target="0" aria-current="true"><span class="stage__nav-num">01</span>Sicherheit</button></li>
+          <li><button type="button" class="stage__nav-item" data-chapter-target="1"><span class="stage__nav-num">02</span>Konzept</button></li>
+          <li><button type="button" class="stage__nav-item" data-chapter-target="2"><span class="stage__nav-num">03</span>Ergebnis</button></li>
+        </ol>
+      </nav>
+    </section>
+
+    <!-- ====================================================================
+         2. KONZEPT — the two pillars (head and Leitsatz live in the stage above)
+         ==================================================================== -->
+    <section class="section concept" id="konzept" aria-labelledby="konzept-title">
+      <div class="concept__columns" data-reveal-group>
+        <article class="concept__col reveal">
+          <h3 class="concept__title">Vertrauen ist die Grundlage.</h3>
+          <p>Wer Verantwortung für seine Sicherheit abgibt, muss vertrauen können. Wir setzen bewusst dort an, wo Verlässlichkeit und Professionalität nicht selbstverständlich sind — und arbeiten ausschließlich mit seriösen, geprüften Partnern.</p>
+        </article>
+        <article class="concept__col reveal">
+          <h3 class="concept__title">Leistung ist der Anspruch.</h3>
+          <p>Fundierte Ausbildung, praktische Erfahrung, Verständnis für die Psychologie von Bedrohungslagen. Dazu körperliche Leistungsfähigkeit, waffenlose Selbstverteidigung und taktische Verletztenversorgung.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. LEISTUNGEN — 2×2 grid, 1px lines, four equal cells
+         ==================================================================== -->
+    <section class="section services" id="leistungen" aria-labelledby="leistungen-title">
+      <div class="section__head" data-reveal-group>
+        <p class="eyebrow reveal">Leistungen</p>
+        <h2 class="section__title reveal" id="leistungen-title">Was wir leisten</h2>
+      </div>
+
+      <div class="services__grid" data-reveal-group>
+        <article class="service reveal">
+          <div class="service__head">
+            <span class="service__num" aria-hidden="true">01</span>
+            <span class="chip">HF-03a</span>
+          </div>
+          <div class="service__media hf-placeholder"
+               data-hf-id="HF-03a" data-hf-type="image" data-hf-ratio="1:1"
+               data-hf-note="Nahaufnahme: Professioneller im dunklen Anzug richtet einen Manschettenknopf, dezenter Ohrhörer kaum sichtbar, anonyme Kadrierung ohne Gesicht."
+               role="img" aria-label="Nahaufnahme eines Personenschützers im dunklen Anzug, der einen Manschettenknopf richtet">
+            <span class="hf-placeholder__label">Higgsfield Asset: HF-03a</span>
+            <img class="hf-media" src="assets/hf03a.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Personenschutz &amp; diskrete Sicherheits&shy;begleitung</h3>
+            <p class="service__text">Schutz, der sich möglichst unauffällig in persönliche, private oder geschäftliche Abläufe integriert.</p>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__head">
+            <span class="service__num" aria-hidden="true">02</span>
+            <span class="chip">HF-03b</span>
+          </div>
+          <div class="service__media hf-placeholder"
+               data-hf-id="HF-03b" data-hf-type="image" data-hf-ratio="1:1"
+               data-hf-note="Zwei Sicherheitsprofis in dunklen Anzügen stimmen sich neben einem schwarzen SUV in einem Parkhaus ab, Silhouetten, blaue Stunde."
+               role="img" aria-label="Zwei Sicherheitsprofis stimmen sich neben einem dunklen Fahrzeug in einem Parkhaus ab">
+            <span class="hf-placeholder__label">Higgsfield Asset: HF-03b</span>
+            <img class="hf-media" src="assets/hf03b.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Contractor-Dienste &amp; Team&shy;verstärkung</h3>
+            <p class="service__text">Unterstützung in- und ausländischer Sicherheitsteams bei Einsätzen in Berlin und Deutschland.</p>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__head">
+            <span class="service__num" aria-hidden="true">03</span>
+            <span class="chip">HF-03c</span>
+          </div>
+          <div class="service__media hf-placeholder"
+               data-hf-id="HF-03c" data-hf-type="image" data-hf-ratio="1:1"
+               data-hf-note="Elegante Hotellobby bei Nacht, Bewegungsunschärfe vorbeigehender Mitarbeiter, eine ruhig beobachtende Figur, kalter Marmor und gerichtetes Licht."
+               role="img" aria-label="Hotellobby bei Nacht mit einer ruhig beobachtenden Person">
+            <span class="hf-placeholder__label">Higgsfield Asset: HF-03c</span>
+            <img class="hf-media" src="assets/hf03c.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Koordination &amp; Vermittlung</h3>
+            <p class="service__text">Schnittstelle zwischen allen Beteiligten — externe Teams, Haussicherheit, Hotels, Veranstalter, Fahrdienste, Behörden.</p>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__head">
+            <span class="service__num" aria-hidden="true">04</span>
+            <span class="chip">HF-03d</span>
+          </div>
+          <div class="service__media hf-placeholder"
+               data-hf-id="HF-03d" data-hf-type="image" data-hf-ratio="1:1"
+               data-hf-note="Moderne Berliner Bürofassade bei Nacht, klares Innenlicht gegen dunklen Stein, ruhige, aufmerksame Atmosphäre, Reflexionen auf nassem Asphalt."
+               role="img" aria-label="Moderne Berliner Bürofassade bei Nacht mit Reflexionen auf nassem Asphalt">
+            <span class="hf-placeholder__label">Higgsfield Asset: HF-03d</span>
+            <img class="hf-media" src="assets/hf03d.webp" alt="" width="1024" height="1024" loading="lazy" decoding="async">
+          </div>
+          <div class="service__body">
+            <h3 class="service__title">Objektschutz</h3>
+            <p class="service__text">Absicherung von Objekten — eigenständig oder als Teil eines Begleitschutz&shy;auftrags.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. FÜR WEN WIR ARBEITEN — five typographic rows
+         ==================================================================== -->
+    <section class="section audience" id="zielgruppen" aria-labelledby="zielgruppen-title">
+      <div class="audience__grid">
+        <div class="audience__head section__head" data-reveal-group>
+          <p class="eyebrow reveal">Zielgruppen</p>
+          <h2 class="section__title reveal" id="zielgruppen-title">Für wen wir arbeiten</h2>
+        </div>
+
+        <ul class="audience__list" role="list" data-reveal-group>
+          <li class="audience__item reveal">
+            <h3 class="audience__title">Unternehmer &amp; Führungskräfte</h3>
+            <p class="audience__text">Diskrete Begleitung zu Terminen, Veranstaltungen und Reisen; Entlastung an organisatorischen Schnittstellen.</p>
+          </li>
+          <li class="audience__item reveal">
+            <h3 class="audience__title">Künstler, Musiker &amp; Athleten</h3>
+            <p class="audience__text">Respektvoller Umgang mit Fans und Umfeld, Koordination mit Management und Haussicherheit, möglichst unauffällige Begleitung.</p>
+          </li>
+          <li class="audience__item reveal">
+            <h3 class="audience__title">Internationale Gäste &amp; Sicherheits&shy;teams</h3>
+            <p class="audience__text">Lokale Ortskenntnis, deutsch-englische Kommunikation, ein Ansprechpartner vor Ort.</p>
+          </li>
+          <li class="audience__item reveal">
+            <h3 class="audience__title">Hotels, Agenturen, Produktionen &amp; Veranstalter</h3>
+            <p class="audience__text">Kurzfristig verlässliche Fachkräfte und klare Abstimmung für ihre Gäste.</p>
+          </li>
+          <li class="audience__item reveal">
+            <h3 class="audience__title">Privatpersonen mit konkretem Begleitbedarf</h3>
+            <p class="audience__text">Individuell, diskret, nachvollziehbar kalkuliert für einzelne Termine oder Zeiträume.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. GRÜNDER-DOSSIER
+         ==================================================================== -->
+    <section class="section founder" id="gruender" aria-labelledby="gruender-title">
+      <div class="founder__grid">
+        <div class="founder__media-col">
+          <div class="founder__media hf-placeholder reveal"
+               data-hf-id="HF-02" data-hf-type="image" data-hf-ratio="4:5"
+               data-hf-note="Gründer-Medium: ruhiges Porträt von Edwin Ofori Attah als subtiler Loop (leichte Atembewegung, ruhiger Blick) oder Still. Quelle: echtes Foto, keine synthetische Person."
+               role="img" aria-label="Porträt von Edwin Ofori Attah, Gründer und Geschäftsführer">
+            <span class="hf-placeholder__label">Higgsfield Asset: HF-02</span>
+            <img class="hf-media" src="assets/hf02.webp" alt="" width="1200" height="1500" loading="lazy" decoding="async">
+            <!-- Optional loop (image-to-video from the same portrait) — replaces the <img> above:
+            <video class="hf-media" autoplay muted loop playsinline poster="assets/hf02.webp" aria-hidden="true">
+              <source src="assets/hf02.webm" type="video/webm">
+              <source src="assets/hf02.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+        </div>
+
+        <div class="founder__body" data-reveal-group>
+          <p class="eyebrow reveal">Gründer &amp; Geschäftsführer</p>
+          <h2 class="founder__name reveal" id="gruender-title">Edwin Ofori Attah</h2>
+          <p class="founder__intro reveal">Gebürtiger Berliner. Das Fundament seiner Arbeit bilden Ausbildung und Tätigkeit im behördlichen Personenschutz sowie Erfahrung im privaten Personenschutz.</p>
+
+          <ol class="credentials reveal" role="list" aria-label="Qualifikationen">
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">01.</span><span class="credentials__text">Ausbildung &amp; Tätigkeit Personenschutz — LKA Berlin</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">02.</span><span class="credentials__text">Rechtswissenschaften — Freie Universität Berlin</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">03.</span><span class="credentials__text">Sachkunde §&nbsp;34a GewO &amp; IHK-Abschluss Bewachungsgewerbe</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">04.</span><span class="credentials__text">Taktische Verletztenversorgung, Fahrsicherheit, Observation</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">05.</span><span class="credentials__text">Profi-Basketball-Laufbahn &amp; Black Belt Brazilian Jiu-Jitsu (Instructor)</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">06.</span><span class="credentials__text">Einsatzsprachen: Deutsch &amp; Englisch</span></li>
+          </ol>
+
+          <!-- The only first-person statement on the page; everything else speaks as "wir". -->
+          <figure class="quote reveal">
+            <blockquote>
+              <p>„Konsequente Vorbereitung schafft die Grundlage. Entscheidend ist, auch unter Druck handlungsfähig zu bleiben.“</p>
+            </blockquote>
+            <figcaption class="quote__by">Edwin Ofori Attah</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. DER PROZESS — four steps, scrubbed 1px progress line
+         ==================================================================== -->
+    <section class="section process" id="prozess" aria-labelledby="prozess-title">
+      <!-- HF-04: optional, very subtle background texture (decorative → aria-hidden). -->
+      <div class="process__bg hf-placeholder"
+           data-hf-id="HF-04" data-hf-type="image" data-hf-ratio="21:9"
+           data-hf-note="Sehr dezente Hintergrundtextur, 21:9: unscharfe Berliner Architektur bei Nacht in Graphit, stark abgedunkelt, nur als Fläche wahrnehmbar."
+           aria-hidden="true">
+        <span class="hf-placeholder__label">Higgsfield Asset: HF-04</span>
+        <img class="hf-media" src="assets/hf04.webp" alt="" width="1344" height="576" loading="lazy" decoding="async">
+      </div>
+
+      <div class="section__head" data-reveal-group>
+        <p class="eyebrow reveal">Der Prozess</p>
+        <h2 class="section__title reveal" id="prozess-title">Vom Erstkontakt zum Einsatz</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline__track" aria-hidden="true"><span class="timeline__progress"></span></div>
+        <ol class="timeline__steps" role="list" data-reveal-group>
+          <li class="step reveal">
+            <span class="step__num" aria-hidden="true">01</span>
+            <h3 class="step__title">Erstgespräch</h3>
+            <p class="step__text">Anlass, Anforderungen, Rahmenbedingungen. Vertraulich.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num" aria-hidden="true">02</span>
+            <h3 class="step__title">Analyse</h3>
+            <p class="step__text">Situation, Umfeld, Abläufe, sicherheitsrelevante Anforderungen.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num" aria-hidden="true">03</span>
+            <h3 class="step__title">Individuelles Angebot</h3>
+            <p class="step__text">Leistungsumfang, Kosten und Organisation transparent festgelegt.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num" aria-hidden="true">04</span>
+            <h3 class="step__title">Operative Durchführung</h3>
+            <p class="step__text">Diskret und situationsgerecht in bestehende Abläufe integriert.</p>
+          </li>
+        </ol>
+      </div>
+
+      <p class="footnote reveal">Jeder Einsatz wird dokumentiert nachbereitet.</p>
+    </section>
+
+    <!-- ====================================================================
+         7. FAKTEN-LEISTE
+         BETREIBER-HINWEIS: Der Eintrag "Bewachungsgewerbe nach §&nbsp;34a GewO*" und
+         die Fußnote sind Platzhalter für den Antragsstatus. Vor Launch prüfen:
+         Ist die Erlaubnis nach §&nbsp;34a GewO erteilt? Dann Fußnote entfernen und
+         Formulierung bestätigen. Falls noch in Beantragung: Formulierung mit
+         Edwin abstimmen (z. B. "Sachkunde nach §&nbsp;34a GewO") — nichts behaupten,
+         was noch nicht erteilt ist.
+         ==================================================================== -->
+    <section class="facts" aria-labelledby="facts-title">
+      <h2 class="visually-hidden" id="facts-title">Eckdaten</h2>
+      <ul class="facts__list" role="list">
+        <li class="facts__item">Sitz Berlin</li>
+        <li class="facts__item">Deutsch &amp; Englisch</li>
+        <li class="facts__item">Behördlich ausgebildet (LKA Berlin)</li>
+        <li class="facts__item">Bewachungsgewerbe nach §&nbsp;34a GewO<span class="facts__asterisk" aria-hidden="true">*</span></li>
+        <li class="facts__item">Need-to-know &amp; Datensparsamkeit</li>
+      </ul>
+      <p class="facts__note">*Erlaubnis — Formulierung vor Launch anhand des Antragsstatus bestätigen.</p>
+    </section>
+
+    <!-- ====================================================================
+         8. KONTAKT / CTA — minimal form (stub), direct contacts as placeholders
+         ==================================================================== -->
+    <section class="section contact" id="kontakt" aria-labelledby="kontakt-title">
+      <div class="section__head contact__head" data-reveal-group>
+        <p class="eyebrow reveal">Kontakt</p>
+        <h2 class="section__title reveal" id="kontakt-title">Beginnen wir mit einem vertraulichen Gespräch.</h2>
+      </div>
+
+      <div class="contact__grid">
+        <div class="contact__intro" data-reveal-group>
+          <p class="contact__text reveal">Das Erstgespräch ist unverbindlich. Wir erheben Informationen nur im notwendigen Umfang und behandeln sie vertraulich.</p>
+
+          <!-- TODO before launch: replace placeholders with the confirmed phone number and e-mail address (tel:/mailto: links). -->
+          <dl class="contact__direct reveal">
+            <div class="contact__direct-row">
+              <dt>Telefon</dt>
+              <dd>[TELEFON EINSETZEN]</dd>
+            </div>
+            <div class="contact__direct-row">
+              <dt>E-Mail</dt>
+              <dd>[E-MAIL EINSETZEN]</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- STUB: no backend yet. The form has no action; script.js intercepts submit, validates inline and
+             renders a status line. TODO: set FORM_ENDPOINT in script.js (Formspree or own endpoint). -->
+        <form class="contact-form reveal" id="contact-form" novalidate aria-labelledby="kontakt-title">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="form-note">
+          </div>
+          <div class="field">
+            <label for="f-contact">E-Mail oder Telefon</label>
+            <input id="f-contact" name="contact" type="text" required aria-required="true" aria-describedby="form-note">
+          </div>
+          <div class="field">
+            <label for="f-message">Anliegen <span class="field__optional">optional</span></label>
+            <textarea id="f-message" name="message" rows="4"></textarea>
+          </div>
+          <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg.</p>
+          <div class="contact-form__actions">
+            <button class="btn btn--primary" type="submit">Erstgespräch anfragen</button>
+          </div>
+          <p class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       9. FOOTER
+       ====================================================================== -->
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <p class="brand brand--footer">
+        <svg class="brand__logo" viewBox="6 6 88 88" aria-hidden="true" focusable="false"><path d="M6 38a32 32 0 1 0 64 0a32 32 0 1 0 -64 0Z"/><path d="M70 14H94V94H14V70A40 40 0 0 0 70 14Z"/></svg>
+        <span class="brand__mark"><strong>edo</strong> security</span>
+        <span class="brand__sub">Vertrauen als Grundlage. Leistung als Anspruch.</span>
+      </p>
+      <ul class="site-footer__links" role="list">
+        <!-- TODO before launch: create the mandatory legal pages (Impressum, Datenschutzerklärung) and link them here. -->
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+      </ul>
+      <!-- TODO before launch: confirm the legal form and spelling of the company name for the Impressum line. -->
+      <p class="site-footer__legal">edo security&nbsp;·&nbsp;Berlin</p>
+      <p class="site-footer__copy">© <span id="year">2026</span> edo security</p>
+    </div>
+  </footer>
+</body>
+</html>
