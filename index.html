@@ -27,13 +27,13 @@
   <meta property="og:description" content="Personenschutz und Begleitservice in Berlin. Wir schützen, was Ihnen wichtig ist — diskret, präzise und in Ihre Abläufe integriert.">
   <!-- Domain since 2026-10-01: www.edo-security.de (canonical, og:url, og:image above) — DENIC listed it as FREE on 2026-10-01: register it. -->
 
-  <!-- Fonts: Google Fonts with display=swap (no FOIT). Fallbacks are defined in styles.css. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+  <!-- Fonts: self-hosted woff2 (assets/fonts, @font-face at the top of styles.css, font-display: swap) — no request to
+       Google at runtime (LG München 2022). Preload the two latin files the first paint needs; the rest loads on demand. -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/space-grotesk-variable-latin.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/ibm-plex-mono-400-latin.woff2">
 
   <!-- ?v=N on the site's own CSS/JS: bump together with every change so browsers never pair a fresh page with a cached stylesheet. -->
-  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="styles.css?v=16">
   <!-- Poster frame first: same URL (incl. ?v=) as script.js HF01_FRAME_PATH(1), so the scrub reuses the cache entry. -->
   <link rel="preload" as="image" href="assets/hf01/frame_0001.webp?v=3" fetchpriority="high">
 
@@ -85,7 +85,7 @@
   <!-- GSAP core + ScrollTrigger (cdnjs, pinned) and the site script — all deferred, executed in order. -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="script.js?v=13"></script>
+  <script defer src="script.js?v=16"></script>
 </head>
 
 <body>
@@ -305,6 +305,8 @@
           </div>
         </article>
       </div>
+      <!-- Hub → landing page (SEO/GEO plan 5.1): the one-pager stays the brand page, the search intent lands on /personenschutz-berlin/. -->
+      <p class="section__link reveal"><a href="personenschutz-berlin/">Personenschutz in Berlin: Einordnung, Kriterien, Fragen und Antworten</a></p>
     </section>
 
     <!-- ====================================================================
@@ -497,7 +499,7 @@
             <label for="f-message">Anliegen <span class="field__optional">optional</span></label>
             <textarea id="f-message" name="message" rows="4"></textarea>
           </div>
-          <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg.</p>
+          <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg. Hilfreich für das Erstgespräch: Leistungsbedarf, Zeitraum, Ort und Ansprechpartner.</p>
           <div class="contact-form__actions">
             <button class="btn btn--primary" type="submit">Erstgespräch anfragen</button>
           </div>
@@ -519,6 +521,7 @@
       </p>
       <ul class="site-footer__links" role="list">
         <!-- TODO before launch: create the mandatory legal pages (Impressum, Datenschutzerklärung) and link them here. -->
+        <li><a href="personenschutz-berlin/">Personenschutz Berlin</a></li>
         <li><a href="#">Impressum</a></li>
         <li><a href="#">Datenschutz</a></li>
       </ul>
