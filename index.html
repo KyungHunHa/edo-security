@@ -33,7 +33,7 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/ibm-plex-mono-400-latin.woff2">
 
   <!-- ?v=N on the site's own CSS/JS: bump together with every change so browsers never pair a fresh page with a cached stylesheet. -->
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=20">
   <!-- Poster frame first: same URL (incl. ?v=) as script.js HF01_FRAME_PATH(1), so the scrub reuses the cache entry. -->
   <link rel="preload" as="image" href="assets/hf01/frame_0001.webp?v=3" fetchpriority="high">
 
@@ -42,8 +42,7 @@
        is dropped and the content is shown statically; script.js then skips the entrance animations. -->
   <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.gsap){document.documentElement.classList.remove('js');}},2500);</script>
 
-  <!-- Structured data. TODO before launch: add "@id" (final URL + "#business"), "telephone", "email" and the legal form
-       once confirmed (name currently the brand "edo security"). -->
+  <!-- Structured data. Legal form Einzelunternehmen (Edwin, 02.10.), address + e-mail set; TODO: "telephone" once decided. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -54,8 +53,11 @@
     "image": "https://www.edo-security.de/assets/brand/edo-og-image.png",
     "slogan": "Ihre Sicherheit. Ihre Abläufe. Ihre Handlungsfreiheit.",
     "description": "Personenschutz und Begleitservice in Berlin: diskrete Sicherheitsbegleitung, Contractor-Dienste und Teamverstärkung, Koordination und Vermittlung, Objektschutz.",
+    "email": "info@edo-security.de",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "Kurfürstendamm 235",
+      "postalCode": "10719",
       "addressLocality": "Berlin",
       "addressCountry": "DE"
     },
@@ -67,7 +69,7 @@
     "founder": {
       "@type": "Person",
       "name": "Edwin Ofori Attah",
-      "jobTitle": "Gründer & Geschäftsführer"
+      "jobTitle": "Gründer & Inhaber"
     },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -82,10 +84,11 @@
   }
   </script>
 
-  <!-- GSAP core + ScrollTrigger (cdnjs, pinned) and the site script — all deferred, executed in order. -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script defer src="script.js?v=17"></script>
+  <!-- GSAP core + ScrollTrigger 3.12.5, self-hosted since 2026-10-02 (assets/vendor/gsap, unmodified cdnjs builds) — the site
+       makes no third-party request at all; the site script follows, all deferred, executed in order. -->
+  <script defer src="assets/vendor/gsap/gsap.min.js"></script>
+  <script defer src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="script.js?v=20"></script>
 </head>
 
 <body>
@@ -353,7 +356,7 @@
           <div class="founder__media hf-placeholder reveal"
                data-hf-id="HF-02" data-hf-type="image" data-hf-ratio="4:5"
                data-hf-note="Gründer-Medium: ruhiges Porträt von Edwin Ofori Attah als subtiler Loop (leichte Atembewegung, ruhiger Blick) oder Still. Quelle: echtes Foto, keine synthetische Person."
-               role="img" aria-label="Porträt von Edwin Ofori Attah, Gründer und Geschäftsführer">
+               role="img" aria-label="Porträt von Edwin Ofori Attah, Gründer und Inhaber">
             <span class="hf-placeholder__label">Higgsfield Asset: HF-02</span>
             <img class="hf-media" src="assets/hf02.webp" alt="" width="1200" height="1500" loading="lazy" decoding="async">
             <!-- Optional loop (image-to-video from the same portrait) — replaces the <img> above:
@@ -366,15 +369,15 @@
         </div>
 
         <div class="founder__body" data-reveal-group>
-          <p class="eyebrow reveal">Gründer &amp; Geschäftsführer</p>
+          <p class="eyebrow reveal">Gründer &amp; Inhaber</p>
           <h2 class="founder__name reveal" id="gruender-title">Edwin Ofori Attah</h2>
           <p class="founder__intro reveal">Gebürtiger Berliner. Das Fundament seiner Arbeit bilden Ausbildung und Tätigkeit im behördlichen Personenschutz sowie Erfahrung im privaten Personenschutz.</p>
 
           <ol class="credentials reveal" role="list" aria-label="Qualifikationen">
-            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">01.</span><span class="credentials__text">Ausbildung &amp; Tätigkeit Personenschutz — LKA Berlin</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">01.</span><span class="credentials__text">Ausbildung Schutzpolizei, Basislehrgang LKA&nbsp;61 &amp; Tätigkeit Personenschutz — LKA Berlin</span></li>
             <li class="credentials__item"><span class="credentials__index" aria-hidden="true">02.</span><span class="credentials__text">Rechtswissenschaften — Freie Universität Berlin</span></li>
             <li class="credentials__item"><span class="credentials__index" aria-hidden="true">03.</span><span class="credentials__text">Sachkunde §&nbsp;34a GewO &amp; IHK-Abschluss Bewachungsgewerbe</span></li>
-            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">04.</span><span class="credentials__text">Taktische Verletztenversorgung, Fahrsicherheit, Observation</span></li>
+            <li class="credentials__item"><span class="credentials__index" aria-hidden="true">04.</span><span class="credentials__text">Waffensachkunde §&nbsp;7 WaffG, taktische Verletztenversorgung, Fahrsicherheit, Observation</span></li>
             <li class="credentials__item"><span class="credentials__index" aria-hidden="true">05.</span><span class="credentials__text">Profi-Basketball-Laufbahn &amp; Black Belt Brazilian Jiu-Jitsu (Instructor)</span></li>
             <li class="credentials__item"><span class="credentials__index" aria-hidden="true">06.</span><span class="credentials__text">Einsatzsprachen: Deutsch &amp; Englisch</span></li>
           </ol>
@@ -439,12 +442,8 @@
 
     <!-- ====================================================================
          7. FAKTEN-LEISTE
-         BETREIBER-HINWEIS: Der Eintrag "Bewachungsgewerbe nach §&nbsp;34a GewO*" und
-         die Fußnote sind Platzhalter für den Antragsstatus. Vor Launch prüfen:
-         Ist die Erlaubnis nach §&nbsp;34a GewO erteilt? Dann Fußnote entfernen und
-         Formulierung bestätigen. Falls noch in Beantragung: Formulierung mit
-         Edwin abstimmen (z. B. "Sachkunde nach §&nbsp;34a GewO") — nichts behaupten,
-         was noch nicht erteilt ist.
+         § 34a: the bar names the founder's Sachkunde only (02.10.); the company permit is not claimed anywhere
+         until Edwin reports it as granted.
          ==================================================================== -->
     <section class="facts" aria-labelledby="facts-title">
       <h2 class="visually-hidden" id="facts-title">Eckdaten</h2>
@@ -452,10 +451,10 @@
         <li class="facts__item">Sitz Berlin</li>
         <li class="facts__item">Deutsch &amp; Englisch</li>
         <li class="facts__item">Behördlich ausgebildet (LKA Berlin)</li>
-        <li class="facts__item">Bewachungsgewerbe nach §&nbsp;34a GewO<span class="facts__asterisk" aria-hidden="true">*</span></li>
+        <li class="facts__item">Sachkunde §&nbsp;34a GewO</li>
         <li class="facts__item">Need-to-know &amp; Datensparsamkeit</li>
       </ul>
-      <p class="facts__note">*Erlaubnis — Formulierung vor Launch anhand des Antragsstatus bestätigen.</p>
+      <!-- Once the § 34a permit for the Einzelunternehmen is granted (date + Ordnungsamt), this line may say "Erlaubnis nach § 34a GewO"; until then only the founder's Sachkunde. -->
     </section>
 
     <!-- ====================================================================
@@ -471,7 +470,7 @@
         <div class="contact__intro" data-reveal-group>
           <p class="contact__text reveal">Das Erstgespräch ist unverbindlich. Wir erheben Informationen nur im notwendigen Umfang und behandeln sie vertraulich.</p>
 
-          <!-- TODO before launch: replace placeholders with the confirmed phone number and e-mail address (tel:/mailto: links). -->
+          <!-- Phone: Kyung/Edwin decide (02.10.) whether a business number goes on the site; release.py refuses to ship a placeholder. -->
           <dl class="contact__direct reveal">
             <div class="contact__direct-row">
               <dt>Telefon</dt>
@@ -479,27 +478,29 @@
             </div>
             <div class="contact__direct-row">
               <dt>E-Mail</dt>
-              <dd>[E-MAIL EINSETZEN]</dd>
+              <dd><a href="mailto:info@edo-security.de">info@edo-security.de</a></dd>
             </div>
           </dl>
         </div>
 
         <!-- STUB: no backend yet. The form has no action; script.js intercepts submit, validates inline and
              renders a status line. TODO: set FORM_ENDPOINT in script.js (Formspree or own endpoint). -->
-        <form class="contact-form reveal" id="contact-form" novalidate aria-labelledby="kontakt-title">
+        <form class="contact-form reveal" id="contact-form" method="post" novalidate aria-labelledby="kontakt-title">
           <div class="field">
             <label for="f-name">Name</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="form-note">
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" minlength="2" maxlength="120" aria-describedby="form-note">
           </div>
           <div class="field">
             <label for="f-contact">E-Mail oder Telefon</label>
-            <input id="f-contact" name="contact" type="text" required aria-required="true" aria-describedby="form-note">
+            <input id="f-contact" name="contact" type="text" required aria-required="true" minlength="3" maxlength="200" aria-describedby="form-note">
           </div>
           <div class="field">
             <label for="f-message">Anliegen <span class="field__optional">optional</span></label>
-            <textarea id="f-message" name="message" rows="4"></textarea>
+            <textarea id="f-message" name="message" rows="4" maxlength="4000"></textarea>
           </div>
           <p class="form-note" id="form-note">Pflichtangaben: Name und ein Kontaktweg. Hilfreich für das Erstgespräch: Leistungsbedarf, Zeitraum, Ort und Ansprechpartner.</p>
+          <!-- Art. 13 DSGVO: information at the point of collection; release.py ships the live endpoint only with a placeholder-free datenschutz/. -->
+          <p class="form-note">Ihre Angaben werden per E-Mail an uns übermittelt und nur zur Beantwortung Ihrer Anfrage verwendet. Einzelheiten in der <a href="datenschutz/">Datenschutzerklärung</a>.</p>
           <!-- Spam defence without third parties (server/contact.php): honeypot "website" must stay empty (off-screen,
                not focusable, hidden from assistive tech), "t" = page-load timestamp written by script.js. -->
           <div class="field field--hp" aria-hidden="true">
@@ -527,13 +528,12 @@
         <span class="brand__sub">Vertrauen als Grundlage. Leistung als Anspruch.</span>
       </p>
       <ul class="site-footer__links" role="list">
-        <!-- TODO before launch: create the mandatory legal pages (Impressum, Datenschutzerklärung) and link them here. -->
         <li><a href="personenschutz-berlin/">Personenschutz Berlin</a></li>
-        <li><a href="#">Impressum</a></li>
-        <li><a href="#">Datenschutz</a></li>
+        <li><a href="impressum/">Impressum</a></li>
+        <li><a href="datenschutz/">Datenschutz</a></li>
       </ul>
-      <!-- TODO before launch: confirm the legal form and spelling of the company name for the Impressum line. -->
-      <p class="site-footer__legal">edo security&nbsp;·&nbsp;Berlin</p>
+      <!-- Legal form per Edwin (02.10.): Einzelunternehmen, owner Edwin Ofori Attah; full address in impressum/. -->
+      <p class="site-footer__legal">edo security&nbsp;·&nbsp;Inhaber Edwin Ofori Attah&nbsp;·&nbsp;Berlin</p>
       <p class="site-footer__copy">© <span id="year">2026</span> edo security</p>
     </div>
   </footer>

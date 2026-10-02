@@ -1,6 +1,6 @@
 /* ==========================================================================
    edo security — script.js
-   Vanilla JS + GSAP 3.12.5 (core + ScrollTrigger via cdnjs, deferred).
+   Vanilla JS + GSAP 3.12.5 (core + ScrollTrigger, self-hosted in assets/vendor/gsap, deferred).
 
    Contents
      0. Config (HF-01 frame-sequence switch, form endpoint)
@@ -46,7 +46,7 @@
    * TODO before launch: set to a Formspree URL ('https://formspree.io/f/<FORM_ID>') or an own endpoint
    * that accepts multipart/form-data POST and answers 2xx.
    */
-  const FORM_ENDPOINT = '';                       // repo/preview: stub. The release build sets 'contact.php' (server/contact.php).
+  const FORM_ENDPOINT = '';                       // repo/preview: stub. The release build sets '/contact.php' (absolute: the landing page lives in a subfolder).
 
   const HERO_PIN_DISTANCE = '+=300%';                            // pin duration ≈ 300 vh: one viewport of scroll per chapter
   const CHAPTER_FADE = 0.14;                                     // share of a chapter's scroll used for the crossfade at each boundary
@@ -596,13 +596,19 @@
 
     const status = form.querySelector('.form-status');
     const submit = form.querySelector('button[type="submit"]');
+    // Limits mirror server/contact.php (min 2 / 3 characters, maxlength attributes on the fields)
     const required = [
-      { input: form.elements.name, message: 'Bitte geben Sie Ihren Namen an.' },
-      { input: form.elements.contact, message: 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an.' },
+      { input: form.elements.name, min: 2, message: 'Bitte geben Sie Ihren Namen an.' },
+      { input: form.elements.contact, min: 3, message: 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an.' },
     ].filter((f) => f.input);
+    const SERVER_MESSAGES = {            // 422 error codes from contact.php → field + text
+      name: 'Bitte geben Sie Ihren Namen an (2 bis 120 Zeichen).',
+      contact: 'Bitte geben Sie eine E-Mail-Adresse oder Telefonnummer an (3 bis 200 Zeichen).',
+      message: 'Ihr Anliegen ist zu lang (höchstens 4000 Zeichen).',
+    };
 
     const BASE_DESCRIBEDBY = 'form-note';
-    if (form.elements.t) form.elements.t.value = String(Date.now());   // fill-time check in contact.php (bots submit at once)
+    const loadedAt = performance.now(); // fill-time check in contact.php: elapsed ms, monotonic clock (no skew, no clock jumps)
 
     const setError = (input, message) => {
       const field = input.closest('.field');
@@ -632,17 +638,17 @@
       status.focus({ preventScroll: true });       // keep keyboard position; role="status" announces it
     };
 
-    required.forEach(({ input, message }) => {
-      input.addEventListener('blur', () => setError(input, input.value.trim() ? '' : message));
-      input.addEventListener('input', () => { if (input.value.trim()) setError(input, ''); });
+    required.forEach(({ input, min, message }) => {
+      input.addEventListener('blur', () => setError(input, input.value.trim().length >= min ? '' : message));
+      input.addEventListener('input', () => { if (input.value.trim().length >= min) setError(input, ''); });
     });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       let firstInvalid = null;
-      required.forEach(({ input, message }) => {
-        const valid = input.value.trim().length > 0;
+      required.forEach(({ input, min, message }) => {
+        const valid = input.value.trim().length >= min;
         setError(input, valid ? '' : message);
         if (!valid && !firstInvalid) firstInvalid = input;
       });
@@ -658,14 +664,32 @@
       }
 
       if (submit) submit.disabled = true;
+      if (form.elements.t) form.elements.t.value = String(Math.round(performance.now() - loadedAt));
       try {
         const response = await fetch(FORM_ENDPOINT, {
           method: 'POST',
           body: new FormData(form),
           headers: { Accept: 'application/json' },
         });
+        if (response.status === 422) {
+          // Server-side validation: point at the field instead of the generic status line
+          const data = await response.json().catch(() => null);
+          const input = data && form.elements[data.error];
+          if (input && SERVER_MESSAGES[data.error]) {
+            setError(input, SERVER_MESSAGES[data.error]);
+            input.focus();
+            if (submit) submit.disabled = false;
+            return;
+          }
+        }
+        if (response.status === 429) {
+          announce('Zu viele Anfragen von diesem Anschluss. Bitte versuchen Sie es in einer Stunde erneut oder nutzen Sie Telefon oder E-Mail.');
+          if (submit) submit.disabled = false;
+          return;
+        }
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        form.querySelectorAll('input, textarea').forEach((el) => { el.disabled = true; });
+        // read-only, not disabled: the text stays legible, selectable and reachable for assistive tech
+        form.querySelectorAll('input, textarea').forEach((el) => { el.readOnly = true; el.setAttribute('aria-readonly', 'true'); });
         announce('Vielen Dank. Ihre Nachricht ist eingegangen — wir melden uns vertraulich bei Ihnen.');
       } catch (error) {
         if (submit) submit.disabled = false;
@@ -788,7 +812,23 @@
    Hosting 2026-10-01 (v=17, Kyung: all-inkl Privat, domain there): mailer server/contact.php (mail() to RECIPIENT,
    stores nothing, honeypot "website" + fill-time "t" + per-IP-hash rate limit, header-injection safe, same-origin
    check); form carries the two extra fields (.field--hp off-screen, aria-hidden, tabindex -1). FORM_ENDPOINT stays
-   '' in the repo; release.py writes 'contact.php' into release/script.js. Stub behaviour in previews unchanged.
+   '' in the repo; release.py writes '/contact.php' into release/script.js. Stub behaviour in previews unchanged.
+   Mailer review 2026-10-01 (4 lenses × adversarial verify, 28 findings, 17 confirmed, all applied, v=18): endpoint
+   absolute (the landing page lives in /personenschutz-berlin/), fill time = client-measured elapsed ms (no clock
+   skew), rate limit atomic under flock in .contact-rate/ with a salted hash (fails open with a log line), sweep on
+   every POST, UTF-8 check + cleaning before validation, mail() unmuted + display_errors off, one mailbox as
+   recipient and sender; client mirrors the limits (min 2/3, maxlength 120/200/4000), maps 422 codes to the field,
+   own 429 text, readonly instead of disabled after success, form method="post", Art.-13 sentence under the form;
+   release.py ships the live endpoint only once datenschutz/index.html exists.
+   Edwin's feedback 2026-10-02 (v=19): legal form Einzelunternehmen, address Kurfürstendamm 235, 10719 Berlin, e-mail
+   info@edo-security.de (mailto in the contact block, JSON-LD email/streetAddress/postalCode, footer "Inhaber …");
+   credentials: Schutzpolizei + Basislehrgang LKA 61 (line 01), Waffensachkunde § 7 WaffG (line 04); FAQ 8
+   (Qualifikation) answered from the same facts; "unbewaffnet" removed from the landing-page hero/meta/JSON-LD,
+   "meist unbewaffnet" in the Einordnung and FAQ 2, criterion 05 states the armed exception with the Waffenbehörde's
+   need confirmation (§ 28 WaffG). impressum/ + datenschutz/ generated by tools/build_legal.py (noindex, .legal prose),
+   footer + form note link them; GSAP self-hosted (assets/vendor/gsap) → zero third-party requests, as the
+   Datenschutzerklärung states. Generators moved from the scratchpad into tools/; release.py lists open placeholders
+   ({{TELEFON}}, {{USTID}}, {{ERLAUBNIS}}, {{LOGFRIST}}, [TELEFON EINSETZEN]) and keeps the form stub until none is left.
 
    Pin bug 2026-09-17/18 (reported by Kyung: after scrolling past the stage and back, the film sat 1–2
    viewports too low with black above it). Root cause: CSS `html { scroll-behavior: smooth }`.
@@ -823,7 +863,7 @@
        sub-claims, band, founder quote and all section copy taken verbatim from the brief; the founder intro
        is limited to the two facts the brief names. No prices, no invented references.
    [x] Kein externes Bild/Video geladen; alle 7+ HF-Platzhalter mit korrekten data-Attributen und Ratios
-       Network: Google Fonts CSS/woff2 + cdnjs GSAP + local assets/ (WebP stills, hf01 frame sequence); no third-party
+       Network: self-hosted fonts (assets/fonts) + self-hosted GSAP (assets/vendor/gsap) + local assets/ — no third-party request (since 01./02.10.)
        media; favicon is an inline data: SVG (no /favicon.ico 404).
        Assets live since 2026-09-16: HF-01 (163-frame scrub; take 4 "Kolonnade" replaced take 1 the same day — figure fills
        25–100 % of frame height, bright glass field for contrast, no face at any frame; frame URLs carry ?v=HF01_FRAME_VERSION

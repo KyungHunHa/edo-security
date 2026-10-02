@@ -1189,6 +1189,7 @@ html.js .timeline__progress { transform: scaleX(0); }
   font-size: clamp(2.5rem, 6vw, 5rem);
   max-width: 14ch;
   margin-top: var(--s-2);
+  hyphens: manual;           /* long compounds carry &shy; in the markup (Datenschutz&shy;erklärung) */
 }
 .lp-hero .section__intro { margin-top: var(--s-3); }
 .lp-hero__text { color: var(--muted); max-width: 60ch; margin-top: var(--s-3); }
@@ -1223,6 +1224,18 @@ html.js .timeline__progress { transform: scaleX(0); }
 .section__link { margin-top: var(--s-5); }
 .section__link a { color: var(--paper); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--faint); }
 .section__link a:hover, .section__link a:focus-visible { text-decoration-color: var(--paper); }
+/* Legal pages (/impressum/, /datenschutz/): plain prose on the same tokens */
+.legal { max-width: 68ch; display: grid; gap: var(--s-2); }
+.legal h2 { font-weight: 500; font-size: 1.25rem; line-height: 1.3; margin-top: var(--s-5); }
+.legal h2:first-child { margin-top: 0; }
+.legal p, .legal li { color: var(--muted); }
+.legal strong { color: var(--paper); font-weight: 500; }
+.legal ul { padding-left: 1.2em; list-style: disc; display: grid; gap: var(--s-1); }   /* the global reset removes markers; prose lists get them back */
+.legal li::marker { color: var(--dim); }
+.legal address { font-style: normal; }
+.lp-hero--legal .lp-hero__title { max-width: 22ch; }   /* one-word titles ("Datenschutzerklärung") stay on one line from 768px; &shy; handles phones */
+.legal a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
+.legal a:hover, .legal a:focus-visible { text-decoration-color: var(--paper); }
 @media (max-width: 767.98px) {
   .lp-hero__title { font-size: clamp(1.75rem, 8.2vw, 2.625rem); }   /* same mobile grammar as .hero__title */
   .audience__item--wide, .faq__item { grid-template-columns: 1fr; gap: var(--s-1); }
