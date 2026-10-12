@@ -817,6 +817,9 @@
    tools/build_brand.py builds every asset; header/footer use the horizontal paper lockup as one cached <img> (187×28),
    favicon = the E, touch icon = EDO+, OG rebuilt. Name "Edo+ Protection" since 2026-10-12 (v=23). Verified 375 (header
    56 px, brand 187 px wide, no overflow), 1024 (brand 327 px, nav from 407 px), console empty, subpages load the same file.
+   Stats 2026-10-12 (v=25): four figures Edwin supplied (20+ Jahre weltweite Eliteeinsätze, 4 Patente TheSelfDefender &
+   FranckTheSolution Fork, Begründer CFM, Begründer CCDS) as a 4-cell .stats grid above the facts bar, shared with the
+   landing page. Kyung confirmed them as Edwin's own on 2026-10-12 after I flagged that they read like a third party's.
    Mailer review 2026-10-01 (4 lenses × adversarial verify, 28 findings, 17 confirmed, all applied, v=18): endpoint
    absolute (the landing page lives in /personenschutz-berlin/), fill time = client-measured elapsed ms (no clock
    skew), rate limit atomic under flock in .contact-rate/ with a salted hash (fails open with a log line), sweep on

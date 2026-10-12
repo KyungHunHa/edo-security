@@ -853,6 +853,37 @@ html.js .timeline__progress { transform: scaleX(0); }
   color: var(--dim);
 }
 
+/* 6.5b Stats — four figures above the facts bar: 1px grid like the services, figure in the headline face, label in mono */
+.stats { padding: 0 var(--pad-x); border-bottom: 1px solid var(--line); }
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+.stats__item { background: var(--ink); padding: var(--s-5) var(--s-4); display: grid; gap: var(--s-2); align-content: start; min-width: 0; }
+.stats__figure {
+  font-weight: 700;
+  font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.stats__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: var(--dim);
+  overflow-wrap: anywhere;      /* product names without spaces must not overflow the cell */
+}
+@media (max-width: 1023.98px) { .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 479.98px) { .stats__grid { grid-template-columns: 1fr; } .stats__item { padding: var(--s-4) var(--s-3); } }
+
 /* 6.6 Facts bar ---------------------------------------------------------- */
 .facts {
   padding: 0 var(--pad-x);
