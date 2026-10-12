@@ -48,7 +48,7 @@
    */
   const FORM_ENDPOINT = '';                       // repo/preview: stub. The release build sets '/contact.php' (absolute: the landing page lives in a subfolder).
 
-  const HERO_PIN_DISTANCE = '+=300%';                            // pin duration ≈ 300 vh: one viewport of scroll per chapter
+  const HERO_PIN_DISTANCE = '+=200%';                            // pin duration ≈ 200 vh (was 300: Kyung 12.10., the film is an opener, not a prologue)
   const CHAPTER_FADE = 0.14;                                     // share of a chapter's scroll used for the crossfade at each boundary
   const DESKTOP_MQ = '(min-width: 768px)';                       // below: no pin, static stack (poster frame + stacked chapters)
   const TIMELINE_DESKTOP_MQ = '(min-width: 1024px)';             // below: vertical process timeline (see styles.css)
@@ -817,6 +817,9 @@
    tools/build_brand.py builds every asset; header/footer use the horizontal paper lockup as one cached <img> (187×28),
    favicon = the E, touch icon = EDO+, OG rebuilt. Name "Edo+ Protection" since 2026-10-12 (v=23). Verified 375 (header
    56 px, brand 187 px wide, no overflow), 1024 (brand 327 px, nav from 407 px), console empty, subpages load the same file.
+   Review items 2026-10-12 (v=29, Kyung: "mach"): HERO_PIN_DISTANCE 300% → 200% (chapters switch every ⅔ viewport),
+   .hero__sub one step larger and in --paper (the first viewport now says what the company does without the 11 px eyebrow),
+   .lang-switch[hidden] really hidden (a functionless "DE" pill sat in the nav since the EN slot was prepared).
    Typeface 2026-10-12 (v=26, Kyung: "B2"): Montserrat (variable 400–800, self-hosted, latin + latin-ext) replaces Space
    Grotesk — the family of Edwin's logo; headlines keep 700, hero/chapter titles one step smaller (Montserrat ≈10 % wider).
    Nav 2026-10-12: "Personenschutz" (→ personenschutz-berlin/) added to the home navigation between Leistungen and

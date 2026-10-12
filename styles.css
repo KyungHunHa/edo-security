@@ -340,6 +340,7 @@ html.js .hero__line-inner { transform: translateY(110%); }
   text-transform: uppercase;
   color: var(--dim);
 }
+.lang-switch[hidden] { display: none; }   /* the EN slot stays hidden until the English page exists (display:flex above beat the hidden attribute) */
 .lang-switch__item.is-active { color: var(--paper); }
 .lang-switch a:hover { color: var(--paper); }
 
@@ -428,10 +429,11 @@ main { padding-top: var(--header-h); }
   max-width: 60ch;
 }
 .hero__sub {
-  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
-  line-height: 1.5;
-  color: var(--muted);
-  max-width: 44ch;
+  font-size: clamp(1.125rem, 1.5vw, 1.5rem);   /* 12.10.: one step larger and in paper — the sentence that says what we do */
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--paper);
+  max-width: 40ch;
 }
 .hero__actions {
   display: flex;
