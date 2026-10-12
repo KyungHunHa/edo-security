@@ -17,14 +17,14 @@
    ========================================================================== */
 
 /* Self-hosted web fonts (LG München 29 LH 20 O 17 — no request to Google at runtime). Files are Google's own
-   woff2 builds (Space Grotesk variable 300–700, IBM Plex Mono 400/500), latin + latin-ext subsets, unicode-range
+   woff2 builds (Montserrat variable 400–800 — the family of Edwin's logo, since 2026-10-12; IBM Plex Mono 400/500), latin + latin-ext, unicode-range
    as served by Google so the browser only fetches the subset a page actually uses. font-display: swap = no FOIT. */
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('assets/fonts/ibm-plex-mono-500-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('assets/fonts/space-grotesk-variable-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('assets/fonts/space-grotesk-variable-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 400 800; font-display: swap; src: url('assets/fonts/montserrat-variable-latin-ext.woff2') format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 400 800; font-display: swap; src: url('assets/fonts/montserrat-variable-latin.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 /* --------------------------------------------------------------------------
    1. Tokens
@@ -39,7 +39,7 @@
   --faint:  #3A3A3F;   /* large numerals, inactive elements */
   --line:   #26262A;   /* every grid line and border */
 
-  --font-sans: "Space Grotesk", system-ui, Arial, sans-serif;
+  --font-sans: "Montserrat", system-ui, Arial, sans-serif;     /* Montserrat since 2026-10-12 (Kyung: "B2") — the logo's family; headlines stay 700, Montserrat runs ≈10 % wider than Space Grotesk, so the two big titles are one step smaller */
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
 
   /* 8px spacing scale */
@@ -410,7 +410,7 @@ main { padding-top: var(--header-h); }
   line-height: 1.02;
   /* Longest line "Ihre Handlungsfreiheit." ≈ 12.65em incl. tracking: 5.4vw keeps it on one line
      from 768px up (768 − 2·48 = 672px available, 41.5px × 12.65 ≈ 525px); &shy; is the safety net. */
-  font-size: clamp(2.625rem, 5.4vw, 5.5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   hyphens: manual;
 }
 .hero__line {
@@ -444,7 +444,7 @@ main { padding-top: var(--header-h); }
   text-transform: uppercase;
   letter-spacing: -0.02em;
   line-height: 1.04;
-  font-size: clamp(2.25rem, 4.6vw, 4.5rem);
+  font-size: clamp(2.125rem, 4.25vw, 4.125rem);
 }
 .chapter__text {
   font-size: clamp(1.0625rem, 1.3vw, 1.375rem);
@@ -563,11 +563,11 @@ main { padding-top: var(--header-h); }
 /* Short desktop viewports (laptops with the browser UI, split screens): tighter copy so chapter 1
    never runs into the chapter index. */
 @media (min-width: 768px) and (max-height: 720px) and (prefers-reduced-motion: no-preference) {
-  html.js .hero__title { font-size: clamp(2rem, 4.2vw, 3.25rem); }
+  html.js .hero__title { font-size: clamp(1.875rem, 3.9vw, 3rem); }
   html.js .chapter { gap: var(--s-3); }
   html.js .hero__bottom { gap: var(--s-3); }
   html.js .hero__sub { font-size: 1rem; }
-  html.js .chapter__title { font-size: clamp(2rem, 3.8vw, 3.25rem); }
+  html.js .chapter__title { font-size: clamp(1.875rem, 3.5vw, 3rem); }
   html.js .stage__chapters { padding-top: var(--s-4); }
 }
 
@@ -1129,7 +1129,7 @@ html.js .timeline__progress { transform: scaleX(0); }
   .site-header__inner { gap: var(--s-2); }
 
   .hero__title { font-size: clamp(1.75rem, 8.2vw, 2.625rem); }   /* meets the desktop floor at 768px */
-  .chapter__title { font-size: clamp(1.25rem, 6vw, 2.25rem); }   /* each claim sentence stays on one line from 360px (measured: 305px of 333px at 375px) */
+  .chapter__title { font-size: clamp(1.125rem, 5.5vw, 2.125rem); }   /* each claim sentence stays on one line from 360px (re-measured with Montserrat at 375px) */
   .chapter__statement { font-size: 1.125rem; }
   .stage__chapters { gap: var(--s-6); }
 
@@ -1207,7 +1207,7 @@ html.js .timeline__progress { transform: scaleX(0); }
   letter-spacing: -0.02em;
   line-height: 1.02;
   font-size: clamp(2.5rem, 6vw, 5rem);
-  max-width: 14ch;
+  max-width: 18ch;               /* Montserrat caps are wide: "PERSONENSCHUTZ" alone is ≈14ch */
   margin-top: var(--s-2);
   hyphens: manual;           /* long compounds carry &shy; in the markup (Datenschutz&shy;erklärung) */
 }
@@ -1253,7 +1253,7 @@ html.js .timeline__progress { transform: scaleX(0); }
 .legal ul { padding-left: 1.2em; list-style: disc; display: grid; gap: var(--s-1); }   /* the global reset removes markers; prose lists get them back */
 .legal li::marker { color: var(--dim); }
 .legal address { font-style: normal; }
-.lp-hero--legal .lp-hero__title { max-width: 22ch; }   /* one-word titles ("Datenschutzerklärung") stay on one line from 768px; &shy; handles phones */
+.lp-hero--legal .lp-hero__title { max-width: 26ch; }   /* one-word titles ("Datenschutzerklärung") stay on one line from 768px; &shy; handles phones */
 .legal a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--faint); }
 .legal a:hover, .legal a:focus-visible { text-decoration-color: var(--paper); }
 @media (max-width: 767.98px) {

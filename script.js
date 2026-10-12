@@ -817,6 +817,10 @@
    tools/build_brand.py builds every asset; header/footer use the horizontal paper lockup as one cached <img> (187×28),
    favicon = the E, touch icon = EDO+, OG rebuilt. Name "Edo+ Protection" since 2026-10-12 (v=23). Verified 375 (header
    56 px, brand 187 px wide, no overflow), 1024 (brand 327 px, nav from 407 px), console empty, subpages load the same file.
+   Typeface 2026-10-12 (v=26, Kyung: "B2"): Montserrat (variable 400–800, self-hosted, latin + latin-ext) replaces Space
+   Grotesk — the family of Edwin's logo; headlines keep 700, hero/chapter titles one step smaller (Montserrat ≈10 % wider).
+   Nav 2026-10-12: "Personenschutz" (→ personenschutz-berlin/) added to the home navigation between Leistungen and
+   Gründer (Kyung: "Ok"). Verified 1440: brand 48–329, header mirror 361–686, nav from 718 (32 px gaps); 1024: gap 32 px.
    Stats 2026-10-12 (v=25): four figures Edwin supplied (20+ Jahre weltweite Eliteeinsätze, 4 Patente TheSelfDefender &
    FranckTheSolution Fork, Begründer CFM, Begründer CCDS) as a 4-cell .stats grid above the facts bar, shared with the
    landing page. Kyung confirmed them as Edwin's own on 2026-10-12 after I flagged that they read like a third party's.
