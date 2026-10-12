@@ -813,6 +813,10 @@
    stores nothing, honeypot "website" + fill-time "t" + per-IP-hash rate limit, header-injection safe, same-origin
    check); form carries the two extra fields (.field--hp off-screen, aria-hidden, tabindex -1). FORM_ENDPOINT stays
    '' in the repo; release.py writes '/contact.php' into release/script.js. Stub behaviour in previews unchanged.
+   Logo 2026-10-12 (v=24): Edwin's "EDO+ PROTECTION" PNG traced to vectors (tools/trace_logo.py → assets/brand/source),
+   tools/build_brand.py builds every asset; header/footer use the horizontal paper lockup as one cached <img> (187×28),
+   favicon = the E, touch icon = EDO+, OG rebuilt. Name "Edo+ Protection" since 2026-10-12 (v=23). Verified 375 (header
+   56 px, brand 187 px wide, no overflow), 1024 (brand 327 px, nav from 407 px), console empty, subpages load the same file.
    Mailer review 2026-10-01 (4 lenses × adversarial verify, 28 findings, 17 confirmed, all applied, v=18): endpoint
    absolute (the landing page lives in /personenschutz-berlin/), fill time = client-measured elapsed ms (no clock
    skew), rate limit atomic under flock in .contact-rate/ with a salted hash (fails open with a log line), sweep on
