@@ -824,9 +824,10 @@
    Grotesk — the family of Edwin's logo; headlines keep 700, hero/chapter titles one step smaller (Montserrat ≈10 % wider).
    Nav 2026-10-12: "Personenschutz" (→ personenschutz-berlin/) added to the home navigation between Leistungen and
    Gründer (Kyung: "Ok"). Verified 1440: brand 48–329, header mirror 361–686, nav from 718 (32 px gaps); 1024: gap 32 px.
-   Stats 2026-10-12 (v=25): four figures Edwin supplied (20+ Jahre weltweite Eliteeinsätze, 4 Patente TheSelfDefender &
-   FranckTheSolution Fork, Begründer CFM, Begründer CCDS) as a 4-cell .stats grid above the facts bar, shared with the
-   landing page. Kyung confirmed them as Edwin's own on 2026-10-12 after I flagged that they read like a third party's.
+   Facts correction 2026-10-13 (v=30): the four-tile stats row added on 10-12 was a misunderstanding — the screenshot was
+   an example from another website; the "patents / CFM / CCDS / elite ops" claims were never Edwin's. Row and CSS removed
+   on both pages; the one real fact replaces "Deutsch & Englisch" in the facts bar: "20 Jahre Erfahrung in der
+   Sicherheitsbranche" (Kyung, 13.10.).
    Mailer review 2026-10-01 (4 lenses × adversarial verify, 28 findings, 17 confirmed, all applied, v=18): endpoint
    absolute (the landing page lives in /personenschutz-berlin/), fill time = client-measured elapsed ms (no clock
    skew), rate limit atomic under flock in .contact-rate/ with a salted hash (fails open with a log line), sweep on
